@@ -18,6 +18,20 @@ class TestCases(unittest.TestCase):
         self.assertTrue(re.match(regex.get_regex_data(), "a"))
         self.assertTrue(
             re.match(regex.get_regex_data(), "abcdef1234$"))
+    
+    def test_exclude(self):
+        regex = RegexGen().digits(1, 10, RegexGen.exclude("23", True), capture=True)
+        self.assertTrue(re.match(regex.get_regex_data(),'12345678912'))
+        self.assertTrue(re.match(regex.get_regex_data(),"142356123"))
+        self.assertFalse(re.match(regex.get_regex_data(),'231123123232'))
+        
+    def test_start_of_line(self):
+        regex = RegexGen()
+        regex = regex.linestartwith().digits(0,3)
+        self.assertTrue(re.match(regex.get_regex_data(),"123xs"))
+        self.assertTrue(re.match(regex.get_regex_data(),"1xg"))
+        self.assertFalse(re.match(regex.get_regex_data(),"a426"))
+    
 
 
 if __name__ == "__main__":
