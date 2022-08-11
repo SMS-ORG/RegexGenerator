@@ -27,11 +27,18 @@ class TestCases(unittest.TestCase):
         
     def test_start_of_line(self):
         regex = RegexGen()
-        regex = regex.linestartwith().digits(0,3)
+        regex = regex.linestartwith().digits(1,3)
         self.assertTrue(re.match(regex.get_regex_data(),"123xs"))
         self.assertTrue(re.match(regex.get_regex_data(),"1xg"))
         self.assertFalse(re.match(regex.get_regex_data(),"a426"))
-    
+
+    def test_end_of_line(self):
+        regex = RegexGen()
+        regex = regex.text('abc').endofline()
+        self.assertTrue(re.search(regex.get_regex_data(),"zabc"))
+        self.assertTrue(re.search(regex.get_regex_data(),"thisisabc"))
+        self.assertFalse(re.search(regex.get_regex_data(),"abc12ab"))
+        self.assertFalse(re.search(regex.get_regex_data(),'abc1a'))
 
 
 if __name__ == "__main__":

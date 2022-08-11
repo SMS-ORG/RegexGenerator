@@ -3,7 +3,7 @@ import re
 
 if __name__ == "__main__":
     regex = RegexGen()
-    regex = regex.linestartwith().digits(0,3)
+    regex = regex.text('abc').endofline()
     print(regex.get_regex_data())
 
     # data = re.match(reg.get_regex_data(), "144")
