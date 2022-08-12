@@ -50,7 +50,7 @@ def valid_ranges(data: str, *args) -> bool:
 
 class RegexGen:
     # ranges
-    lowercaserange: str = "a-z"
+    lowercaserange: str = "[a-z]"
     uppercaserange: str = "A-Z"
     digitsrange: str = "0-9"
     symbolsrange: str = "\W"
@@ -61,6 +61,7 @@ class RegexGen:
     new_line: str = "\n"
     tab_space: str = "\t"
     carriage_return: str = "\r"
+    whitespace = "\s"
 
     def __init__(self):
         self.__regex_data: str = str()
@@ -272,7 +273,7 @@ class RegexGen:
         return : str
     '''
     @staticmethod
-    def anyof(characters: tuple[str], capture: bool = False, pattern_prevent: bool = False) -> str:
+    def anyof(characters: "tuple[str]", capture: bool = False, pattern_prevent: bool = False) -> str:
         character_string: str = str()
 
         for character in characters:

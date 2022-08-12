@@ -40,6 +40,23 @@ class TestCases(unittest.TestCase):
         self.assertFalse(re.search(regex.get_regex_data(),"abc12ab"))
         self.assertFalse(re.search(regex.get_regex_data(),'abc1a'))
 
+    def test_any_of_functions(self):
+        regex = RegexGen().text(RegexGen.anyof('+!@.'),min=1,max=4)
+        self.assertTrue(re.match(regex.get_regex_data(),"@+abc"))
+        self.assertTrue(re.search(regex.get_regex_data(),"This is a test."))
+        self.assertFalse(re.match(regex.get_regex_data(),"Thisisatest"))
+
+    def test_matches_single_whitespace(self):
+        regex = RegexGen().text('foo').text(RegexGen().whitespace).text('bar')
+        self.assertTrue(re.match(regex.get_regex_data(),'foo bar'))
+        self.assertFalse(re.match(regex.get_regex_data(),' foo bar'))
+        self.assertFalse(re.match(regex.get_regex_data(),'foo  bar'))
+
+    def test_lowercase_letter(self):
+        regex = RegexGen().text(RegexGen().lowercaserange)
+        # print(regex.get_regex_data())
+        self.assertTrue(re.match(regex.get_regex_data(),'abc'))
+        self.assertFalse(re.match(regex.get_regex_data(),'123'))
 
 if __name__ == "__main__":
     unittest.main()
