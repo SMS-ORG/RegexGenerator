@@ -58,5 +58,22 @@ class TestCases(unittest.TestCase):
         self.assertTrue(re.match(regex.get_regex_data(),'abc'))
         self.assertFalse(re.match(regex.get_regex_data(),'123'))
 
+    def test_ranges(self):
+        self.assertTrue(RegexGen.range('a', 'z'))
+        self.assertTrue(RegexGen.range('A', 'Z'))
+        self.assertTrue(RegexGen.range('0', '9'))
+        self.assertTrue(RegexGen.range('0', '2'))
+
+        with self.assertRaises(Exception):
+            RegexGen.range('1', '1')
+            RegexGen.range('z', 'a')
+            RegexGen.range('a', 'a')
+            RegexGen.range('Z', 'A')
+            RegexGen.range('0', 'Z')
+            RegexGen.range('Z', '0')
+            RegexGen.range('9', '0')
+
+    
+
 if __name__ == "__main__":
     unittest.main()
