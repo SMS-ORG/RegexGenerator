@@ -76,6 +76,8 @@ class TestCases(unittest.TestCase):
     def test_character(self):
         self.assertEqual(RegexGen.characters("abc"), "abc")
         self.assertEqual(RegexGen.characters("ab{"), "ab\{")
+        self.assertEqual(RegexGen.characters("ab}"),"ab\}")
+
 
 
 if __name__ == "__main__":
