@@ -30,7 +30,7 @@ def valid_ranges(data: str, *args) -> bool:
         is_invalid = True
 
         for func in args:
-            if func(ascii_range_start) and func(ascii_range_end):
+            if func(ascii_range_start) and func(ascii_range_end) and ascii_range_start < ascii_range_end:
                 is_invalid = False
                 break
 
@@ -99,7 +99,10 @@ class RegexGen:
 
         # check if range is valid
         character_range = f"({start}-{end})"
-        return character_range
+        if(valid_ranges(character_range, is_lower_case, is_upper_case, is_number)):
+            return character_range
+        raise Exception("In function {}, range_start : {}, range_end:{} => This is not a valid range. Valid ranges are 0-9,A-Z or a-z or \W".format(
+            RegexGen.range.__name__, start, end))
 
     '''
         characters : str  //characters to be matched
@@ -308,13 +311,6 @@ class RegexGen:
 
         predefined_symbols: set = {
             '\\', '.', '(', ')', '*', '{', '}', '^', '+', '?', '[', ']', '$', '|'}
-        predefined_escape: set = {
-            RegexGen.block_word,
-            RegexGen.nonblock_word,
-            RegexGen.new_line,
-            RegexGen.tab_space,
-            RegexGen.carriage_return
-        }
 
         for lettr in char:
             if lettr in predefined_symbols:
