@@ -10,13 +10,8 @@ jobs:
     
     strategy:
       matrix:
-<<<<<<< HEAD
         python-version: ["3.8","3.9", "3.10"]
         
-=======
-        python-version: ["3.11"]
-
->>>>>>> 1036107ec990f210699798380cd3fbff1db13baa
     steps:
       - name: Checkout
         uses: actions/checkout@v3
