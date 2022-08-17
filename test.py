@@ -73,7 +73,10 @@ class TestCases(unittest.TestCase):
             RegexGen.range('Z', '0')
             RegexGen.range('9', '0')
 
-    
+    def test_character(self):
+        self.assertEqual(RegexGen.characters("abc"), "abc")
+        self.assertEqual(RegexGen.characters("ab{"), "ab\{")
+
 
 if __name__ == "__main__":
     unittest.main()
