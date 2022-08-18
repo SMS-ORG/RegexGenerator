@@ -78,6 +78,20 @@ class TestCases(unittest.TestCase):
         self.assertEqual(RegexGen.characters("ab{"), "ab\{")
         self.assertEqual(RegexGen.characters("ab}"),"ab\}")
 
+    def test_combine(self):
+        regexa = RegexGen().digits(4,4).text(RegexGen.characters('-'))
+        regexb = RegexGen().digits(3,3)
+        regex = RegexGen.combine(regexa, regexb)
+        self.assertTrue(re.match(regex.get_regex_data(), "9741-012"))
+        self.assertFalse(re.match(regex.get_regex_data(), "9741"))
+        self.assertFalse(re.match(regex.get_regex_data(), "9741-01"))
+
+    def test_start_and_end(self):
+        regex = RegexGen().linestartwith().text('foo').any(1,5).text('bar').endofline()
+        self.assertTrue(re.match(regex.get_regex_data(),"foo12345bar"))
+        self.assertFalse(re.match(regex.get_regex_data(),"aafoo1234bar"))
+        self.assertFalse(re.match(regex.get_regex_data(),"foo12345bar123"))
+        self.assertFalse(re.match(regex.get_regex_data(),"foo123458bar123"))
 
 
 if __name__ == "__main__":
