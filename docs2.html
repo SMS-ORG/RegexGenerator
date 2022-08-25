@@ -3,24 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>RegEx Docs</title>
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <style type="text/css">
-    .jumbotron {
-        padding: 4rem 2rem;
-        margin-bottom: 2rem;
-        background-color: #e9ecef;
-        /* background-color: var(--bs-light); */
-        border-radius: .3rem;  
-    }
-    </style>
 </head>
 <body>
     
     <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">RegEx Generator</a>
+        <a class="navbar-brand" href="landing_page.html">RegEx Generator</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
@@ -30,7 +21,7 @@
             <a class="nav-link active" aria-current="page" href="#">Home</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="#">Documentation</a>
+            <a class="nav-link" href="docs1.html">Documentation</a>
             </li>
             <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -57,32 +48,56 @@
     <div class="container">
      
     <div class="Text">    
-        <h2>Text</h2><br>
-        <p><code>Text</code> function simply adds the input to regex syntax.</p>
-        <pre><code><p>RegexGen.text("This is a text.") </p></code></pre>           
+        <h2>Any</h2><br>
+        <p><code>Any</code> function generates a regex which can be utilized to check if a certain character exists in the expression<br>
+            In the function definition, 
+            <code>any(self, min: int = 0, max: int = 0, capture: bool = False, **kwargs) -> Self:</code>
+            ,
+            the min : int and max : int has default = 0. If min and max are both zero it must pass a keyword argument as True max : int (default = 0). <br>
+            If on capture : bool (default=False) True is passed, it  enclose . in parenthesis so that regex engine capture data. <br>
+            The kwargs : dict accepts {<br>
+                zeroormore : bool  (default=False), <br>
+                oneormore : bool  (default=False)
+            } <br>
+            The return returns RegexGen</p>
+        <pre><code>regex = RegexGen()
+            regex = regex.any(min=0, max=12)</code></pre>           
         
         <p>The regex is displayed as:</p>
-        <pre> regex = "This is a text."</pre>
+        <pre>  regex = ".{0,12}"</pre> 
     </div><br>
 
     <div class="Text">    
-        <h2>Characters</h2><br>
-        <p><code>Characters</code> function is a static function which is unable to create a regex syntax.<br>
-                Instead, a function like Text is required to submit to the regex syntax.</p>
-        <pre><code><p>RegexGen.text(RegexGen.characters("This+is{a$text.") </p></code></pre>           
+        <h2>Combine</h2><br>
+        <p><code>Combine</code> function creates a regex syntax to combine two regex expressions in one to create a pattern.<br>
+                </p>
+        <pre><code><p>regexa = RegexGen().digits(4,4).text(RegexGen.characters('-'))
+            regexb = RegexGen().digits(3,3)
+            regex = RegexGen.combine(regexa, regexb) </p></code></pre>           
         
         <p>The regex is displayed as:</p>
-        <pre> regex = "This\+is\{a\$text\."</pre>
+        <pre> regex = "\d{4,4}-\d{3,3}"</pre>
     </div><br>
 
+    <div class="Text">    
+        <h2>Linestartwith</h2><br>
+        <p><code>Linestartwith</code> function creates a regex syntax to check if the expression starts with certain pattern.<br>
+                </p>
+        <pre><code><p>regex = RegexGen().linestartwith().text('foo').any(1,5).text('bar').endofline()</p></code></pre>           
+        <p>This code checks for text starting with 'foo' and starting with 'bar' after any characters of length of min 1 and max 5 digits.</p>
+        <p>The regex is displayed as:</p>
+        <pre> regex = "^foo.{1,5}bar"</pre>
+    </div><br>
+
+    
 
     <nav aria-label="...">
     <ul class="pagination pagination-sm">
-        <li class="page-item active" aria-current="page">
-        <span class="page-link">1</span>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <!-- <li class="page-item active" aria-current="page">
+        <span class="page-link"><a class="page-link" href="docs1.html"></a>1</span>
+        </li> -->
+        <li class="page-item"><a class="page-link" href="docs1.html">Previous</a></li>
+        <!-- <li class="page-item"><a class="page-link" href="#">3</a></li> -->
     </ul>
     </nav>
     </div>
