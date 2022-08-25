@@ -1,5 +1,5 @@
-from ftplib import CRLF
 from typing_extensions import Self
+# from typing import Tuple
 import re
 
 
