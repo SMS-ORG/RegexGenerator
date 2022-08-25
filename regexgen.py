@@ -1,5 +1,5 @@
 from typing_extensions import Self
-# from typing import Tuple
+from typing import Tuple
 import re
 
 
@@ -112,7 +112,7 @@ class RegexGen:
         return : tuple
     '''
     @staticmethod
-    def exclude(characters: str, pattern_prevent: bool = False) -> tuple[str, bool]:
+    def exclude(characters: str, pattern_prevent: bool = False) -> Tuple[str, bool]:
         if not characters:
             raise Exception("In function {}, Character : {} => Characters cannot be None".format(
                 RegexGen.exclude.__name__, characters))
@@ -227,7 +227,7 @@ class RegexGen:
         return : RegexGen
     '''
 
-    def digits(self, min: int = 0, max: int = 0, pattern: tuple[str, bool] = None, capture: bool = False, **kwargs) -> Self:
+    def digits(self, min: int = 0, max: int = 0, pattern: Tuple[str, bool] = None, capture: bool = False, **kwargs) -> Self:
         digitstr: str = str()
         temp: str = str()
 
@@ -259,7 +259,7 @@ class RegexGen:
         return : RegexGen
     '''
 
-    def alphabets(self, min: int = 0, max: int = 0, pattern: tuple[str, bool] = None, capture: bool = False, **kwargs):
+    def alphabets(self, min: int = 0, max: int = 0, pattern: Tuple[str, bool] = None, capture: bool = False, **kwargs):
         characterstr: str = str()
         temp: str = str()
 
@@ -314,7 +314,7 @@ class RegexGen:
         return : str
     '''
     @staticmethod
-    def anyof(characters: tuple[str], capture: bool = False, pattern_prevent: bool = False) -> str:
+    def anyof(characters: Tuple[str], capture: bool = False, pattern_prevent: bool = False) -> str:
         character_string: str = str()
 
         for character in characters:
