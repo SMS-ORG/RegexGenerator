@@ -7,6 +7,7 @@ def is_lower_case(x: int): return x > 96 and x < 123
 def is_upper_case(x: int): return x > 64 and x < 91
 def is_number(x: int): return x > 47 and x < 58
 
+
 '''
     data: str //any character or range
     args: list //list of functions for testing ranges, is_lower_case, is_upper_case, is_number
@@ -51,8 +52,8 @@ def valid_ranges(data: str, *args) -> bool:
 class RegexGen:
     # ranges
     lowercaserange: str = "[a-z]"
-    uppercaserange: str = "A-Z"
-    digitsrange: str = "0-9"
+    uppercaserange: str = "[A-Z]"
+    digitsrange: str = "[0-9]"
     symbolsrange: str = "\W"
 
     # ecape sequences
@@ -111,7 +112,7 @@ class RegexGen:
         return : tuple
     '''
     @staticmethod
-    def exclude(characters: str, pattern_prevent: bool = False) -> str:
+    def exclude(characters: str, pattern_prevent: bool = False) -> tuple[str, bool]:
         if not characters:
             raise Exception("In function {}, Character : {} => Characters cannot be None".format(
                 RegexGen.exclude.__name__, characters))
@@ -178,11 +179,6 @@ class RegexGen:
 
         letterstr = character
 
-        makeone = min ^ max == 0 and min == 0
-        if makeone:
-            min = 1
-            max = 1
-
         try:
             temp = self.__add_quantifier(min, max, **kwargs)
         except Exception as e:
@@ -219,9 +215,19 @@ class RegexGen:
 
         return self
     '''
+        This function is used to match only numbers that may not contain a sequence of number or the each numbers existing independently.
+        min : int => default = 0 // if min and max are both zero it must pass a keyword argument as True 
+        max : int => default = 0
+        pattern : a tuple[str, bool] expected a return type from exclude static function
+        capture : bool => default=False //On True enclose the regex syntax in parenthesis so that regex engine capture data
+        kwargs : dict => {
+            zeroormore : bool => default=False,
+            oneormore : bool => default=False
+        }
+        return : RegexGen
     '''
 
-    def digits(self, min: int = 0, max: int = 0, pattern: tuple = None, capture: bool = False, **kwargs) -> Self:
+    def digits(self, min: int = 0, max: int = 0, pattern: tuple[str, bool] = None, capture: bool = False, **kwargs) -> Self:
         digitstr: str = str()
         temp: str = str()
 
@@ -233,11 +239,43 @@ class RegexGen:
         if pattern is None:
             digitstr = f"(\d{temp})" if capture else f"\d{temp}"
         elif pattern[1]:
-            digitstr = f"((?!{pattern[0]})\d{temp})" if capture else f"(?:(?!{pattern[0]})\d{temp})"
+            digitstr = f"((?!{pattern[0]})\d){temp}" if capture else f"(?:(?!{pattern[0]})\d){temp}"
         else:
-            digitstr = f"((?![{pattern[0]}])\d{temp})" if capture else f"(?:(?![{pattern[0]}])\d{temp})"
+            digitstr = f"((?![{pattern[0]}])\d){temp}\b" if capture else f"(?:(?![{pattern[0]}])\d){temp}"
 
         self.__regex_data += digitstr
+
+        return self
+    '''
+        This function is used to match only words(not numbers) that may not contain a sequence of letters or the each letters existing independently.
+        min : int => default = 0 // if min and max are both zero it must pass a keyword argument as True 
+        max : int => default = 0
+        pattern : a tuple[str, bool] expected a return type from exclude static function
+        capture : bool => default=False //On True enclose the regex syntax in parenthesis so that regex engine capture data
+        kwargs : dict => {
+            zeroormore : bool => default=False,
+            oneormore : bool => default=False
+        }
+        return : RegexGen
+    '''
+
+    def alphabets(self, min: int = 0, max: int = 0, pattern: tuple[str, bool] = None, capture: bool = False, **kwargs):
+        characterstr: str = str()
+        temp: str = str()
+
+        try:
+            temp = self.__add_quantifier(min, max, **kwargs)
+        except (...):
+            raise
+
+        if pattern is None:
+            characterstr = f"(\d{temp})" if capture else f"\d{temp}"
+        elif pattern[1]:
+            characterstr = f"((?!{pattern[0]})a-zA-Z){temp}" if capture else f"(?:(?!{pattern[0]})a-zA-Z){temp}"
+        else:
+            characterstr = f"((?![{pattern[0]}])a-zA-Z){temp}\b" if capture else f"(?:(?![{pattern[0]}])a-zA-Z){temp}"
+
+        self.__regex_data += characterstr
 
         return self
 
@@ -276,7 +314,7 @@ class RegexGen:
         return : str
     '''
     @staticmethod
-    def anyof(characters: "tuple[str]", capture: bool = False, pattern_prevent: bool = False) -> str:
+    def anyof(characters: tuple[str], capture: bool = False, pattern_prevent: bool = False) -> str:
         character_string: str = str()
 
         for character in characters:
@@ -318,3 +356,21 @@ class RegexGen:
             else:
                 letters += lettr
         return letters
+
+    def preceded_by(self, characters1: str, characters2: str, min: int = 0, max: int = 0, capture: bool = False, pattern_prevent: bool = False, **kwargs):
+        char1 = characters1
+        char2 = characters2
+        temp: str = str()
+
+        try:
+            temp = self.__add_quantifier(min, max, **kwargs)
+        except(...):
+            raise
+
+        pass
+
+    def succeeded_by(self):
+        pass
+
+    def preceded_and_succeded_by(self):
+        pass

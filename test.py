@@ -6,8 +6,8 @@ import re
 class TestCases(unittest.TestCase):
 
     def test_phone_no(self):
-        regex = RegexGen().digits(4, 4).text(RegexGen.characters("-")).digits(3,
-                                                                              3).text(RegexGen.characters("-"), 1, 1).digits(3, 3)
+        regex = RegexGen().digits(4, 4).text(RegexGen.characters("-"), 1, 1).digits(3,
+                                                                                    3).text(RegexGen.characters("-"), 1, 1).digits(3, 3)
         self.assertTrue(re.match(regex.get_regex_data(), "9741-012-977"))
         self.assertFalse(re.match(regex.get_regex_data(), "974-4012-977"))
         self.assertFalse(re.match(regex.get_regex_data(), "9741012-977"))
@@ -18,45 +18,46 @@ class TestCases(unittest.TestCase):
         self.assertTrue(re.match(regex.get_regex_data(), "a"))
         self.assertTrue(
             re.match(regex.get_regex_data(), "abcdef1234$"))
-    
+
     def test_exclude(self):
         regex = RegexGen().digits(1, 10, RegexGen.exclude("23", True), capture=True)
-        self.assertTrue(re.match(regex.get_regex_data(),'12345678912'))
-        self.assertTrue(re.match(regex.get_regex_data(),"142356123"))
-        self.assertFalse(re.match(regex.get_regex_data(),'231123123232'))
-        
+        self.assertTrue(re.match(regex.get_regex_data(), '19845671'))
+        self.assertTrue(re.match(regex.get_regex_data(), "142356142"))
+        self.assertFalse(re.match(regex.get_regex_data(), '231123'))
+
     def test_start_of_line(self):
         regex = RegexGen()
-        regex = regex.linestartwith().digits(1,3)
-        self.assertTrue(re.match(regex.get_regex_data(),"123xs"))
-        self.assertTrue(re.match(regex.get_regex_data(),"1xg"))
-        self.assertFalse(re.match(regex.get_regex_data(),"a426"))
+        regex = regex.linestartwith().digits(1, 3)
+        self.assertTrue(re.match(regex.get_regex_data(), "123xs"))
+        self.assertTrue(re.match(regex.get_regex_data(), "1xg"))
+        self.assertFalse(re.match(regex.get_regex_data(), "a426"))
 
     def test_end_of_line(self):
         regex = RegexGen()
-        regex = regex.text('abc').endofline()
-        self.assertTrue(re.search(regex.get_regex_data(),"zabc"))
-        self.assertTrue(re.search(regex.get_regex_data(),"thisisabc"))
-        self.assertFalse(re.search(regex.get_regex_data(),"abc12ab"))
-        self.assertFalse(re.search(regex.get_regex_data(),'abc1a'))
+        regex = regex.text('abc', 1, 1).endofline()
+        self.assertTrue(re.search(regex.get_regex_data(), "zabc"))
+        self.assertTrue(re.search(regex.get_regex_data(), "thisisabc"))
+        self.assertFalse(re.search(regex.get_regex_data(), "abc12ab"))
+        self.assertFalse(re.search(regex.get_regex_data(), 'abc1a'))
 
     def test_any_of_functions(self):
-        regex = RegexGen().text(RegexGen.anyof('+!@.'),min=1,max=4)
-        self.assertTrue(re.match(regex.get_regex_data(),"@+abc"))
-        self.assertTrue(re.search(regex.get_regex_data(),"This is a test."))
-        self.assertFalse(re.match(regex.get_regex_data(),"Thisisatest"))
+        regex = RegexGen().text(RegexGen.anyof('+!@.'), min=1, max=4)
+        self.assertTrue(re.match(regex.get_regex_data(), "@+abc"))
+        self.assertTrue(re.search(regex.get_regex_data(), "This is a test."))
+        self.assertFalse(re.match(regex.get_regex_data(), "Thisisatest"))
 
     def test_matches_single_whitespace(self):
-        regex = RegexGen().text('foo').text(RegexGen().whitespace).text('bar')
-        self.assertTrue(re.match(regex.get_regex_data(),'foo bar'))
-        self.assertFalse(re.match(regex.get_regex_data(),' foo bar'))
-        self.assertFalse(re.match(regex.get_regex_data(),'foo  bar'))
+        regex = RegexGen().text('foo', 1, 1).text(
+            RegexGen.whitespace, 1, 1).text('bar', 1, 1)
+        self.assertTrue(re.match(regex.get_regex_data(), 'foo bar'))
+        self.assertFalse(re.match(regex.get_regex_data(), ' foo bar'))
+        self.assertFalse(re.match(regex.get_regex_data(), 'foo  bar'))
 
     def test_lowercase_letter(self):
-        regex = RegexGen().text(RegexGen().lowercaserange)
-        # print(regex.get_regex_data())
-        self.assertTrue(re.match(regex.get_regex_data(),'abc'))
-        self.assertFalse(re.match(regex.get_regex_data(),'123'))
+        regex = RegexGen().text(RegexGen().lowercaserange, 1, 1)
+        self.assertTrue(re.match(regex.get_regex_data(), "a"))
+        self.assertTrue(re.match(regex.get_regex_data(), "abc"))
+        self.assertFalse(re.match(regex.get_regex_data(), "123"))
 
     def test_ranges(self):
         self.assertTrue(RegexGen.range('a', 'z'))
@@ -76,22 +77,23 @@ class TestCases(unittest.TestCase):
     def test_character(self):
         self.assertEqual(RegexGen.characters("abc"), "abc")
         self.assertEqual(RegexGen.characters("ab{"), "ab\{")
-        self.assertEqual(RegexGen.characters("ab}"),"ab\}")
+        self.assertEqual(RegexGen.characters("ab}"), "ab\}")
 
     def test_combine(self):
-        regexa = RegexGen().digits(4,4).text(RegexGen.characters('-'))
-        regexb = RegexGen().digits(3,3)
+        regexa = RegexGen().digits(4, 4).text(RegexGen.characters('-'), 1, 1)
+        regexb = RegexGen().digits(3, 3)
         regex = RegexGen.combine(regexa, regexb)
         self.assertTrue(re.match(regex.get_regex_data(), "9741-012"))
         self.assertFalse(re.match(regex.get_regex_data(), "9741"))
         self.assertFalse(re.match(regex.get_regex_data(), "9741-01"))
 
     def test_start_and_end(self):
-        regex = RegexGen().linestartwith().text('foo').any(1,5).text('bar').endofline()
-        self.assertTrue(re.match(regex.get_regex_data(),"foo12345bar"))
-        self.assertFalse(re.match(regex.get_regex_data(),"aafoo1234bar"))
-        self.assertFalse(re.match(regex.get_regex_data(),"foo12345bar123"))
-        self.assertFalse(re.match(regex.get_regex_data(),"foo123458bar123"))
+        regex = RegexGen().linestartwith().text(
+            'foo', 1, 1).any(1, 5).text('bar', 1, 1).endofline()
+        self.assertTrue(re.match(regex.get_regex_data(), "foo12345bar"))
+        self.assertFalse(re.match(regex.get_regex_data(), "aafoo1234bar"))
+        self.assertFalse(re.match(regex.get_regex_data(), "foo12345bar123"))
+        self.assertFalse(re.match(regex.get_regex_data(), "foo123458bar123"))
 
     # def test_
 
