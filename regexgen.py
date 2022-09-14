@@ -314,7 +314,7 @@ class RegexGen:
         return : str
     '''
     @staticmethod
-    def anyof(characters: Tuple[str], capture: bool = False, pattern_prevent: bool = False) -> str:
+    def anyof(characters: str, capture: bool = False, pattern_prevent: bool = False) -> str:
         character_string: str = str()
 
         for character in characters:
@@ -326,7 +326,7 @@ class RegexGen:
                     pass
             except(...):
                 raise
-
+            character = RegexGen.characters(character)
             character_string += f"{character}|" if pattern_prevent else character
 
         if pattern_prevent:
