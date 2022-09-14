@@ -7,7 +7,6 @@ def is_lower_case(x: int): return x > 96 and x < 123
 def is_upper_case(x: int): return x > 64 and x < 91
 def is_number(x: int): return x > 47 and x < 58
 
-
 '''
     data: str //any character or range
     args: list //list of functions for testing ranges, is_lower_case, is_upper_case, is_number
@@ -259,7 +258,7 @@ class RegexGen:
         return : RegexGen
     '''
 
-    def alphabets(self, min: int = 0, max: int = 0, pattern: Tuple[str, bool] = None, capture: bool = False, **kwargs):
+    def alphabets(self, min: int = 0, max: int = 0, pattern: Tuple[str, bool] = None, capture: bool = False, **kwargs) -> Self:
         characterstr: str = str()
         temp: str = str()
 
@@ -357,9 +356,15 @@ class RegexGen:
                 letters += lettr
         return letters
 
-    def preceded_by(self, characters1: str, characters2: str, min: int = 0, max: int = 0, capture: bool = False, pattern_prevent: bool = False, **kwargs):
-        char1 = characters1
-        char2 = characters2
+    def succeded_by(self, characters1: Tuple[str, bool], characters2: Tuple[str, bool], min: int = 0, max: int = 0, capture: bool = False, invert: bool = False, **kwargs) -> Self:
+        if not characters1 or len(characters1) != 2:
+            raise Exception("In function {} => characters1 tuple cannot be none or its length must be 2".format(
+                RegexGen.succeded_by.__name__))
+        if not characters2 or len(characters2) != 2:
+            raise Exception("In function {} => characters2 tuple cannot be none or its length must be 2".format(
+                RegexGen.succeded_by.__name__))
+
+        characterstr: str = str()
         temp: str = str()
 
         try:
@@ -367,10 +372,45 @@ class RegexGen:
         except(...):
             raise
 
-        pass
+        followblock: str = str()
+        if invert:
+            followblock = f"(?!{characters2[0]}" if characters2[1] else f"(?![{characters2[0]}])"
+        else:
+            followblock = f"(?={characters2[0]}" if characters2[1] else f"(?=[{characters2[0]}])"
 
-    def succeeded_by(self):
-        pass
+        precedingblock: str = f"{characters1[0]}{temp}" if characters1[1] else f"[{characters1[0]}]{temp}"
+        characterstr = precedingblock + followblock
+        characterstr = f"({characterstr})" if capture else f"(?:{characterstr})"
+        self.__regex_data += characterstr
+        return self
+
+    def preceded_by(self, characters1: Tuple[str, bool], characters2: Tuple[str, bool], min: int = 0, max: int = 0, capture: bool = False, invert: bool = False, **kwargs) -> Self:
+        if not characters1 or len(characters1) != 2:
+            raise Exception("In function {} => characters1 tuple cannot be none or its length must be 2".format(
+                RegexGen.preceded_by.__name__))
+        if not characters2 or len(characters2) != 2:
+            raise Exception("In function {} => characters2 tuple cannot be none or its length must be 2".format(
+                RegexGen.preceded_by.__name__))
+
+        characterstr: str = str()
+        temp: str = str()
+
+        try:
+            temp = self.__add_quantifier(min, max, **kwargs)
+        except(...):
+            raise
+
+        preceedingblock: str = str()
+        if invert:
+            preceedingblock = f"(?<!{characters1[0]}" if characters1[1] else f"(?<![{characters1[0]}])"
+        else:
+            preceedingblock = f"(?<={characters1[0]}" if characters1[1] else f"(?<=[{characters1[0]}])"
+
+        followblock: str = f"{characters2[0]}{temp}" if characters2[2] else f"[{characters2[2]}]{temp}"
+        characterstr = preceedingblock + followblock
+        characterstr = f"({characterstr})" if capture else f"(?:{characterstr})"
+        self.__regex_data += characterstr
+        return self
 
     def preceded_and_succeded_by(self):
         pass
