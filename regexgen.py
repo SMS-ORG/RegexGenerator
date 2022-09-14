@@ -326,7 +326,7 @@ class RegexGen:
                     pass
             except(...):
                 raise
-            character = RegexGen.characters(character)
+
             character_string += f"{character}|" if pattern_prevent else character
 
         if pattern_prevent:
