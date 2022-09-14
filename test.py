@@ -16,8 +16,7 @@ class TestCases(unittest.TestCase):
         regex = RegexGen()
         regex = regex.any(min=0, max=12)
         self.assertTrue(re.match(regex.get_regex_data(), "a"))
-        self.assertTrue(
-            re.match(regex.get_regex_data(), "abcdef1234$"))
+        self.assertTrue(re.match(regex.get_regex_data(), "abcdef1234$"))
 
     def test_exclude(self):
         regex = RegexGen().digits(1, 10, RegexGen.exclude("23", True), capture=True)
@@ -93,9 +92,20 @@ class TestCases(unittest.TestCase):
         self.assertTrue(re.match(regex.get_regex_data(), "foo12345bar"))
         self.assertFalse(re.match(regex.get_regex_data(), "aafoo1234bar"))
         self.assertFalse(re.match(regex.get_regex_data(), "foo12345bar123"))
-        self.assertFalse(re.match(regex.get_regex_data(), "foo123458bar123"))
+        self.assertFalse(re.match(regex.get_regex_data(), "foo123458bar123"))   
 
-    # def test_
+    def test_alphabets(self):
+        regex = RegexGen().alphabets(1,5)
+        self.assertTrue(re.match(regex.get_regex_data(),"hello"))
+        self.assertTrue(re.match(regex.get_regex_data(),"HELLO"))
+        self.assertFalse(re.match(regex.get_regex_data(),"1923"))
+      
+
+    def test_alphanumerc(self):
+        regex = RegexGen().text(RegexGen().alphanumeric,4,4)
+        self.assertTrue(re.match(regex.get_regex_data(),"acrs"))
+        self.assertTrue(re.match(regex.get_regex_data(),"1a3_"))
+        self.assertFalse(re.match(regex.get_regex_data(),'@a+*'))     
 
 
 if __name__ == "__main__":

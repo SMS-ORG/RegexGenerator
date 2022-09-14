@@ -55,7 +55,7 @@ class RegexGen:
     uppercaserange: str = "[A-Z]"
     digitsrange: str = "[0-9]"
     symbolsrange: str = "\W"
-
+    alphanumeric: str = "\w"
     # ecape sequences
     block_word: str = "\b"
     nonblock_word: str = "\B"
@@ -241,7 +241,7 @@ class RegexGen:
         elif pattern[1]:
             digitstr = f"((?!{pattern[0]})\d){temp}" if capture else f"(?:(?!{pattern[0]})\d){temp}"
         else:
-            digitstr = f"((?![{pattern[0]}])\d){temp}\b" if capture else f"(?:(?![{pattern[0]}])\d){temp}"
+            digitstr = f"((?![{pattern[0]}])\d){temp}" if capture else f"(?:(?![{pattern[0]}])\d){temp}"
 
         self.__regex_data += digitstr
 
@@ -269,7 +269,7 @@ class RegexGen:
             raise
 
         if pattern is None:
-            characterstr = f"(\d{temp})" if capture else f"\d{temp}"
+            characterstr = f"([a-zA-Z]{temp})" if capture else f"[a-zA-Z]{temp}"
         elif pattern[1]:
             characterstr = f"((?!{pattern[0]})a-zA-Z){temp}" if capture else f"(?:(?!{pattern[0]})a-zA-Z){temp}"
         else:
