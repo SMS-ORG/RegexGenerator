@@ -406,7 +406,7 @@ class RegexGen:
         else:
             preceedingblock = f"(?<={characters1[0]}" if characters1[1] else f"(?<=[{characters1[0]}])"
 
-        followblock: str = f"{characters2[0]}{temp}" if characters2[2] else f"[{characters2[2]}]{temp}"
+        followblock: str = f"{characters2[0]}{temp}" if characters2[1] else f"[{characters2[0]}]{temp}"
         characterstr = preceedingblock + followblock
         characterstr = f"({characterstr})" if capture else f"(?:{characterstr})"
         self.__regex_data += characterstr
