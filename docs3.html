@@ -48,57 +48,55 @@
     <div class="container">
      
     <div class="Text">    
-        <h2>Text</h2><br>
-        <p><code>Text</code> function simply adds the input to regex syntax.</p>
-        <pre><code><p>RegexGen.text("This is a text.") </p></code></pre>           
-        
-        <p>The regex is displayed as:</p>
-        <pre> regex = "This is a text."</pre>
-        Text is generated using Characters function.
+        <h2>Valid Ranges</h2><br>
+        <p><code>Valid Ranges</code> function checks for valid range in the expression.<br><br>
+            In the function definition, 
+            <code>valid_ranges(data: str, *args)</code>
+            ,
+            data is a str (string class) and includes any character or range.
+            args is a list and <br>includes list of functions for testing ranges, is_lower_case, is_upper_case, is_number.<br>
     </div><br>
 
     <div class="Text">    
-        <h2>Characters</h2><br>
-        <p><code>Characters</code> function is a static function which is unable to create a regex syntax.<br>
-                Instead, a function like Text is required to submit to the regex syntax. <br>
-                Charcters is used some characters predefined in the regex library are used and thus they need to be escaped.</p>
-        <pre><code><p>RegexGen.text(RegexGen.characters("This+is{a$text.") </p></code></pre>           
-        
+        <h2>Line start with</h2><br>
+        <p><code>linestartwith</code> adds a expression to indicates beginning of the string and is always added on a new line.<br>
+        The function definition is:  
+            <code>linestartwith(self)</code></p>
+        <p>When this function is called, the function adds the expression '^' if no regex data exists already.</p>
+        <p>If the regex data already exists then the function adds the expression '\n^' indicating line is changed before signifying beginning of the string.  </p>
+        <p><code>Linestartwith</code> function can be used in combination with other function to create a regex syntax to check if the expression starts with certain pattern.<br>
+        </p>
+        <pre><code><p>regex = RegexGen().linestartwith().text('foo').any(1,5).text('bar').endofline()</p></code></pre>           
+        <p>This code checks for text starting with 'foo' and starting with 'bar' after any characters of length of min 1 and max 5 digits.</p>
         <p>The regex is displayed as:</p>
-        <pre> regex = "This\+is\{a\$text\."</pre>
+        <pre> regex = "^foo.{1,5}bar"</pre>
     </div><br>
 
     <div class="Text">    
-        <h2>Exclude</h2><br>
-        <p><code>Exclude</code> function is a static function. It excludes certain pattern based upon the input of the user.<br>
-            In the function definition, <code>exclude(characters: str, pattern_prevent: bool = False) -> tuple</code>,
-            <ol class="list-group list-group-numbered">
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="ms-2 me-auto">
-                        the characters : str signifies characters to be matched, <br>
-                    </div></li>
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="ms-2 me-auto">
-                        pattern_prevent : str (default = False) Here, on True, prevents the characters sequence to match(The sequence must not contain a range) <br>
-                        and on false prevent piecewise occuring of characters.
-                        and returns a tuple                    
-                    </div></li>
-               </p>
-        <pre><code><p>RegexGen().digits(1, 10, RegexGen.exclude("23", True), capture=True) </p></code></pre>           
-        
-        <p>The regex is displayed as:</p>
-        <pre> regex = "\b(?:(?![23])\d)+\b"</pre>
+        <h2>End of line</h2><br>
+        <p><code>endofline</code> adds a expression to indicates end of the string and end of the line.<br>
+            The function definition is:  
+            <code>endofline(self)</code></p>
+        <p>When this function is called, the function adds the expression '$' to the regex data.</p>
+        <p>If the regex data already exists then the function adds the expression '\n^' indicating line is changed before signifying beginning of the string.  </p>
+        <p><code>endofline</code> function can be used in combination with other function to create a regex syntax to check if the expression ends with certain pattern.<br>
+        </p>
+<pre><code><p>regex = RegexGen().regex.text('abc', 1, 1).endofline()</p></code></pre>           
+<p>This code checks for text ending with 'abc' after any characters of any length </p>
+<p>The regex is displayed as:</p>
+<pre> regex = "abc$"</pre>
     </div><br>
+    
 
     <nav aria-label="...">
-    <ul class="pagination pagination-sm">
-        <li class="page-item"><a class="page-link" href="docs1.html">1</a></li>
-        <li class="page-item"><a class="page-link" href="docs2.html">2</a></li>
-        <li class="page-item"><a class="page-link" href="docs3.html">3</a></li>
-        <li class="page-item"><a class="page-link" href="docs4.html">4</a></li>
-
-    </ul>
-    </nav>
+        <ul class="pagination pagination-sm">
+            <li class="page-item"><a class="page-link" href="docs1.html">1</a></li>
+            <li class="page-item"><a class="page-link" href="docs2.html">2</a></li>
+            <li class="page-item"><a class="page-link" href="docs3.html">3</a></li>
+            <li class="page-item"><a class="page-link" href="docs4.html">4</a></li>
+    
+        </ul>
+        </nav>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 </body>

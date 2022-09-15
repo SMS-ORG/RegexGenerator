@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RegEx Docs</title>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+</head>
+<body>
+    
+    <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="landing_page.html">RegEx Generator</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="docs1.html">Documentation</a>
+            </li>
+            <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+            </li>
+            <!-- <li class="nav-item">
+            <a class="nav-link disabled">Disabled</a>
+            </li> -->
+        </ul>
+        <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        </div>
+    </div>
+    </nav>
+    <div class="container">
+     
+    <div class="Text">    
+        <h2>Range</h2><br>
+        <p><code>Range</code> function provides syntax for defining range.<br><br>
+            In the function definition, 
+            <code>range(start: str, end: str)</code>
+            ,
+            <ol class="list-group list-group-numbered">
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        start accepts string for starting range whose length must be 1.                 
+                    </div></li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        end accepts string for ending range whose length must be 1.                
+                    </div></li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        return returns the range in format &#60;start>-&#60;end>
+                    </div></li>
+                </ol><br></p>
+        <pre><code><p>regex = RegexGen().regex.range('a', 'z')</p></code></pre>           
+        <p>The regex is displayed as:</p>
+        <pre> regex = "[a-z]"</pre>
+    </div><br>
+
+    <div class="Text">    
+        <h2>Add Quantifier</h2><br>
+        <p><code>__add_quantifier</code>adds quantifiers like ? + * x(n,m).<br>
+        The function definition is:  
+            <code>__add_quantifier(self, min: int, max: int, **kwargs)</code></p>
+        The regex generated depends on the value of min and max.
+            <ol class="list-group list-group-numbered">
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="fw-bold">min == max and max == 0:</div>
+                    If no characters exist then the exception is raised stating min and max can't be zero.       
+
+                    <div class="ms-2 me-auto">
+                        <pre> regex = " "</pre>                    </div></li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="fw-bold">max == min and min == 1:</div>
+                    <div class="ms-2 me-auto">
+                        <pre> regex = "^foo.{1,5}bar"</pre>                    </div></li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="fw-bold">max == min:</div>
+                    <div class="ms-2 me-auto">
+                        <pre> regex = "^foo.{1,5}bar"</pre>                    </div></li>                
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="fw-bold">min == 0 and max == 1:</div>
+                    <div class="ms-2 me-auto">
+                        <pre> regex = "^foo.{1,5}bar"</pre>                    </div></li>  
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="fw-bold">max == 0 and min > 0:</div>
+                    <div class="ms-2 me-auto">
+                        <pre> regex = "^foo.{1,5}bar"</pre>                    </div></li>  
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="fw-bold">max > min and min > 0:</div>
+                    <div class="ms-2 me-auto">
+                        <pre> regex = "^foo.{1,5}bar"</pre>                    </div></li>  
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="fw-bold">Else:</div>
+                    <div class="ms-2 me-auto">
+                    <!-- If no characters exist then the exception is raised stating min and max can't be zero.        -->
+                    </div></li>                      
+                </ol><br>
+            </p>
+        <pre> regex = "^foo.{1,5}bar"</pre>
+    </div><br>
+
+    <div class="Text">    
+        <h2>End of line</h2><br>
+        <p><code>endofline</code> adds a expression to indicates end of the string and end of the line.<br>
+            The function definition is:  
+            <code>endofline(self)</code></p>
+        <p>When this function is called, the function adds the expression '$' to the regex data.</p>
+        <p>If the regex data already exists then the function adds the expression '\n^' indicating line is changed before signifying beginning of the string.  </p>
+        <p><code>endofline</code> function can be used in combination with other function to create a regex syntax to check if the expression ends with certain pattern.<br>
+        </p>
+        <pre><code><p>regex = RegexGen().regex.text('abc', 1, 1).endofline()</p></code></pre>           
+        <p>This code checks for text ending with 'abc' after any characters of any length </p>
+        <p>The regex is displayed as:</p>
+        <pre> regex = "abc$"</pre>
+    </div><br>
+    
+
+    <nav aria-label="...">
+        <ul class="pagination pagination-sm">
+            <li class="page-item"><a class="page-link" href="docs1.html">1</a></li>
+            <li class="page-item"><a class="page-link" href="docs2.html">2</a></li>
+            <li class="page-item"><a class="page-link" href="docs3.html">3</a></li>
+            <li class="page-item"><a class="page-link" href="docs4.html">4</a></li>
+    
+        </ul>
+        </nav>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+</body>
+</html>
