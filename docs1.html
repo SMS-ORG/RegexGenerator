@@ -45,61 +45,107 @@
         </div>
     </div>
     </nav>
-    <div class="container">
-     
-    <div class="Text">    
-        <h2>Text</h2><br>
-        <p><code>Text</code> function simply adds the input to regex syntax.</p>
-        <pre><code><p>RegexGen.text("This is a text.") </p></code></pre>           
-        
-        <p>The regex is displayed as:</p>
-        <pre> regex = "This is a text."</pre>
-        Text is generated using Characters function.
-    </div><br>
 
-    <div class="Text">    
-        <h2>Characters</h2><br>
-        <p><code>Characters</code> function is a static function which is unable to create a regex syntax.<br>
-                Instead, a function like Text is required to submit to the regex syntax. <br>
-                Charcters is used some characters predefined in the regex library are used and thus they need to be escaped.</p>
-        <pre><code><p>RegexGen.text(RegexGen.characters("This+is{a$text.") </p></code></pre>           
-        
-        <p>The regex is displayed as:</p>
-        <pre> regex = "This\+is\{a\$text\."</pre>
-    </div><br>
-
-    <div class="Text">    
-        <h2>Exclude</h2><br>
-        <p><code>Exclude</code> function is a static function. It excludes certain pattern based upon the input of the user.<br>
-            In the function definition, <code>exclude(characters: str, pattern_prevent: bool = False) -> tuple</code>,
-            <ol class="list-group list-group-numbered">
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="ms-2 me-auto">
-                        the characters : str signifies characters to be matched, <br>
-                    </div></li>
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="ms-2 me-auto">
-                        pattern_prevent : str (default = False) Here, on True, prevents the characters sequence to match(The sequence must not contain a range) <br>
-                        and on false prevent piecewise occuring of characters.
-                        and returns a tuple                    
-                    </div></li>
-               </p>
-        <pre><code><p>RegexGen().digits(1, 10, RegexGen.exclude("23", True), capture=True) </p></code></pre>           
-        
-        <p>The regex is displayed as:</p>
-        <pre> regex = "\b(?:(?![23])\d)+\b"</pre>
-    </div><br>
-
-    <nav aria-label="...">
-    <ul class="pagination pagination-sm">
-        <li class="page-item"><a class="page-link" href="docs1.html">1</a></li>
-        <li class="page-item"><a class="page-link" href="docs2.html">2</a></li>
-        <li class="page-item"><a class="page-link" href="docs3.html">3</a></li>
-        <li class="page-item"><a class="page-link" href="docs4.html">4</a></li>
-
-    </ul>
-    </nav>
+    <div class="offcanvas offcanvas-start w-25" tabindex="-1" id="offcanvas" data-bs-keyboard="false" data-bs-backdrop="false">
+        <div class="offcanvas-header">
+            <h6 class="offcanvas-title d-none d-sm-block" id="offcanvas">In this Docs</h6>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body px-0">
+            <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-start" id="menu">
+                <li class="nav-item">
+                    <a href="landing_page.html" class="nav-link text-truncate">
+                        <i class="fs-5 bi-house"></i><span class="ms-1 d-none d-sm-inline">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="docs1.html" data-bs-toggle="collapse" class="nav-link text-truncate">
+                        <i class="fs-5 bi-speedometer2"></i><span class="ms-1 d-none d-sm-inline">Text</span> </a>
+                </li>
+                <li>
+                    <a href="docs2.html" class="nav-link text-truncate">
+                        <i class="fs-5 bi-table"></i><span class="ms-1 d-none d-sm-inline">Any</span></a>
+                </li>
+                <li>
+                    <a href="docs3.html" class="nav-link text-truncate">
+                        <i class="fs-5 bi-grid"></i><span class="ms-1 d-none d-sm-inline">Valid Ranges</span></a>
+                </li>
+                <li>
+                    <a href="docs4.html" class="nav-link text-truncate">
+                        <i class="fs-5 bi-people"></i><span class="ms-1 d-none d-sm-inline">Ranges</span> </a>
+                </li>
+            </ul>
+        </div>
     </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col min-vh-100 p-4">
+                <!-- toggler -->
+                <button class="btn float-end" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" role="button">
+                    <i class="bi bi-arrow-right-square-fill fs-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvas"></i>
+                </button>
+                <div class="container">
+     
+                    <div class="Text"> 
+                        <br>
+                        <h1>Documentation</h1>
+                        Different functions along with their description and use case are provided below. <br>  <br><br> 
+                        <h2>Text</h2><br>
+                        <p><code>Text</code> function simply adds the input to regex syntax.</p>
+                        <pre><code><p>RegexGen.text("This is a text.") </p></code></pre>           
+                        
+                        <p>The regex is displayed as:</p>
+                        <pre> regex = "This is a text."</pre>
+                        Text is generated using Characters function.
+                    </div><br>
+                
+                    <div class="Text">    
+                        <h2>Characters</h2><br>
+                        <p><code>Characters</code> function is a static function which is unable to create a regex syntax.<br>
+                                Instead, a function like Text is required to submit to the regex syntax. <br>
+                                Charcters is used some characters predefined in the regex library are used and thus they need to be escaped.</p>
+                        <pre><code><p>RegexGen.text(RegexGen.characters("This+is{a$text.") </p></code></pre>           
+                        
+                        <p>The regex is displayed as:</p>
+                        <pre> regex = "This\+is\{a\$text\."</pre>
+                    </div><br>
+                
+                    <div class="Text">    
+                        <h2>Exclude</h2><br>
+                        <p><code>Exclude</code> function is a static function. It excludes certain pattern based upon the input of the user.<br>
+                            In the function definition, <code>exclude(characters: str, pattern_prevent: bool = False) -> tuple</code>,
+                            <ol class="list-group list-group-numbered">
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        the characters : str signifies characters to be matched, <br>
+                                    </div></li>
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        pattern_prevent : str (default = False) Here, on True, prevents the characters sequence to match(The sequence must not contain a range) <br>
+                                        and on false prevent piecewise occuring of characters.
+                                        and returns a tuple                    
+                                    </div></li>
+                               </p>
+                        <pre><code><p>RegexGen().digits(1, 10, RegexGen.exclude("23", True), capture=True) </p></code></pre>           
+                        
+                        <p>The regex is displayed as:</p>
+                        <pre> regex = "\b(?:(?![23])\d)+\b"</pre>
+                    </div><br>
+                
+                    <nav aria-label="...">
+                    <ul class="pagination pagination-sm">
+                        <li class="page-item"><a class="page-link" href="docs1.html">1</a></li>
+                        <li class="page-item"><a class="page-link" href="docs2.html">2</a></li>
+                        <li class="page-item"><a class="page-link" href="docs3.html">3</a></li>
+                        <li class="page-item"><a class="page-link" href="docs4.html">4</a></li>
+                
+                    </ul>
+                    </nav>
+                    </div>
+            </div>
+        </div>
+    </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 </body>
 </html>
