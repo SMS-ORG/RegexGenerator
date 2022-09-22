@@ -45,9 +45,50 @@
         </div>
     </div>
     </nav>
+    <div class="offcanvas offcanvas-start w-25" tabindex="-1" id="offcanvas" data-bs-keyboard="false" data-bs-backdrop="false">
+        <div class="offcanvas-header">
+            <h6 class="offcanvas-title d-none d-sm-block" id="offcanvas">In this Docs</h6>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body px-0">
+            <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-start" id="menu">
+                <li class="nav-item">
+                    <a href="landing_page.html" class="nav-link text-truncate">
+                        <i class="fs-5 bi-house"></i><span class="ms-1 d-none d-sm-inline">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="docs1.html" data-bs-toggle="collapse" class="nav-link text-truncate">
+                        <i class="fs-5 bi-speedometer2"></i><span class="ms-1 d-none d-sm-inline">Text</span> </a>
+                </li>
+                <li>
+                    <a href="docs2.html" class="nav-link text-truncate">
+                        <i class="fs-5 bi-table"></i><span class="ms-1 d-none d-sm-inline">Any</span></a>
+                </li>
+                <li>
+                    <a href="docs3.html" class="nav-link text-truncate">
+                        <i class="fs-5 bi-grid"></i><span class="ms-1 d-none d-sm-inline">Valid Ranges</span></a>
+                </li>
+                <li>
+                    <a href="docs4.html" class="nav-link text-truncate">
+                        <i class="fs-5 bi-people"></i><span class="ms-1 d-none d-sm-inline">Ranges</span> </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col min-vh-100 p-4">
+                <!-- toggler -->
+                <button class="btn float-end" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" role="button">
+                    <i class="bi bi-arrow-right-square-fill fs-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvas"></i>
+                </button>
     <div class="container">
      
-    <div class="Text">    
+    <div class="Text">
+        <br>
+        <h1>Documentation</h1>
+        Different functions along with their description and use case are provided below. <br>  <br><br>     
         <h2>Range</h2><br>
         <p><code>Range</code> function provides syntax for defining range.<br><br>
             In the function definition, 
@@ -128,7 +169,7 @@
         <p>This code checks for text ending with 'abc' after any characters of any length </p>
         <p>The regex is displayed as:</p>
         <pre> regex = "abc$"</pre>
-    </div><br>
+    </div><br></div></div></div>
     
 
     <nav aria-label="...">
