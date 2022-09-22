@@ -16,6 +16,6 @@ if __name__ == "__main__":
     # print(regex.get_regex_data())
 
     regex = RegexGen().preceded_by(RegexGen.exclude('INVOICE Number',pattern_prevent= True),RegexGen.exclude(RegexGen.alphanumeric),oneormore = True)
-    regex = RegexGen().preceded_by(RegexGen.exclude('\d'),
-                                   RegexGen.exclude('a-z', pattern_prevent=True), min=1, max=3).succeeded_by(RegexGen.exclude('a-z', pattern_prevent=True), RegexGen.exclude('\d'), min=1, max=3)
+    # regex = RegexGen().preceded_by(RegexGen.exclude('\d'),
+    #                                RegexGen.exclude('a-z', pattern_prevent=True), min=1, max=3).succeeded_by(RegexGen.exclude('a-z', pattern_prevent=True), RegexGen.exclude('\d'), min=1, max=3)
     print(regex.get_regex_data())
