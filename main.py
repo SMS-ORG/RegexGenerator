@@ -12,5 +12,6 @@ if __name__ == "__main__":
     #                                                                           3).text(RegexGen.characters("-"), 1, 1).digits(3, 3)
     # regex = RegexGen().digits(1, 4)
 
-    regex = RegexGen().text(RegexGen().alphanumeric, 4, 4)
+    regex = RegexGen().preceded_by(RegexGen.exclude('\d'),
+                                   RegexGen.exclude('a-z', pattern_prevent=True), min=1, max=3).succeeded_by(RegexGen.exclude('a-z', pattern_prevent=True), RegexGen.exclude('\d'), min=1, max=3)
     print(regex.get_regex_data())

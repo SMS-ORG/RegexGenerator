@@ -356,13 +356,13 @@ class RegexGen:
                 letters += lettr
         return letters
 
-    def succeded_by(self, characters1: Tuple[str, bool], characters2: Tuple[str, bool], min: int = 0, max: int = 0, capture: bool = False, invert: bool = False, **kwargs) -> Self:
-        if not characters1 or len(characters1) != 2:
+    def succeeded_by(self, preceeding: Tuple[str, bool], succeeding: Tuple[str, bool], min: int = 0, max: int = 0, capture: bool = False, invert: bool = False, **kwargs) -> Self:
+        if not preceeding or len(preceeding) != 2:
             raise Exception("In function {} => characters1 tuple cannot be none or its length must be 2".format(
-                RegexGen.succeded_by.__name__))
-        if not characters2 or len(characters2) != 2:
+                RegexGen.succeeded_by.__name__))
+        if not succeeding or len(succeeding) != 2:
             raise Exception("In function {} => characters2 tuple cannot be none or its length must be 2".format(
-                RegexGen.succeded_by.__name__))
+                RegexGen.succeeded_by.__name__))
 
         characterstr: str = str()
         temp: str = str()
@@ -374,21 +374,28 @@ class RegexGen:
 
         followblock: str = str()
         if invert:
-            followblock = f"(?!{characters2[0]}" if characters2[1] else f"(?![{characters2[0]}])"
+            followblock = f"(?!{succeeding[0]}" if succeeding[1] else f"(?![{succeeding[0]}])"
         else:
-            followblock = f"(?={characters2[0]}" if characters2[1] else f"(?=[{characters2[0]}])"
+            followblock = f"(?={succeeding[0]}" if succeeding[1] else f"(?=[{succeeding[0]}])"
 
-        precedingblock: str = f"{characters1[0]}{temp}" if characters1[1] else f"[{characters1[0]}]{temp}"
-        characterstr = precedingblock + followblock
-        characterstr = f"({characterstr})" if capture else f"(?:{characterstr})"
+        precedingblock: str = f"{preceeding[0]}{temp}" if preceeding[1] else f"[{preceeding[0]}]{temp}"
+
+        if len(self.__regex_data) > len(precedingblock) and \
+                self.__regex_data.rindex(precedingblock) == len(self.__regex_data)-len(precedingblock)-1:
+            characterstr += followblock
+            self.__regex_data = self.__regex_data[:-1]
+            characterstr += ')'
+        else:
+            characterstr = precedingblock + followblock
+            characterstr = f"({characterstr})" if capture else f"(?:{characterstr})"
         self.__regex_data += characterstr
         return self
 
-    def preceded_by(self, characters1: Tuple[str, bool], characters2: Tuple[str, bool], min: int = 0, max: int = 0, capture: bool = False, invert: bool = False, **kwargs) -> Self:
-        if not characters1 or len(characters1) != 2:
+    def preceded_by(self, preceding: Tuple[str, bool], succeeding: Tuple[str, bool], min: int = 0, max: int = 0, capture: bool = False, invert: bool = False, **kwargs) -> Self:
+        if not preceding or len(preceding) != 2:
             raise Exception("In function {} => characters1 tuple cannot be none or its length must be 2".format(
                 RegexGen.preceded_by.__name__))
-        if not characters2 or len(characters2) != 2:
+        if not succeeding or len(succeeding) != 2:
             raise Exception("In function {} => characters2 tuple cannot be none or its length must be 2".format(
                 RegexGen.preceded_by.__name__))
 
@@ -402,15 +409,12 @@ class RegexGen:
 
         preceedingblock: str = str()
         if invert:
-            preceedingblock = f"(?<!{characters1[0]}" if characters1[1] else f"(?<![{characters1[0]}])"
+            preceedingblock = f"(?<!{preceding[0]}" if preceding[1] else f"(?<![{preceding[0]}])"
         else:
-            preceedingblock = f"(?<={characters1[0]}" if characters1[1] else f"(?<=[{characters1[0]}])"
+            preceedingblock = f"(?<={preceding[0]}" if preceding[1] else f"(?<=[{preceding[0]}])"
 
-        followblock: str = f"{characters2[0]}{temp}" if characters2[1] else f"[{characters2[0]}]{temp}"
+        followblock: str = f"{succeeding[0]}{temp}" if succeeding[1] else f"[{succeeding[0]}]{temp}"
         characterstr = preceedingblock + followblock
         characterstr = f"({characterstr})" if capture else f"(?:{characterstr})"
         self.__regex_data += characterstr
         return self
-
-    def preceded_and_succeded_by(self):
-        pass
