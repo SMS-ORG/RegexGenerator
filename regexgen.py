@@ -374,9 +374,9 @@ class RegexGen:
 
         followblock: str = str()
         if invert:
-            followblock = f"(?!{succeeding[0]}" if succeeding[1] else f"(?![{succeeding[0]}])"
+            followblock = f"(?!{succeeding[0]})" if succeeding[1] else f"(?![{succeeding[0]}])"
         else:
-            followblock = f"(?={succeeding[0]}" if succeeding[1] else f"(?=[{succeeding[0]}])"
+            followblock = f"(?={succeeding[0]})" if succeeding[1] else f"(?=[{succeeding[0]}])"
 
         precedingblock: str = f"{preceeding[0]}{temp}" if preceeding[1] else f"[{preceeding[0]}]{temp}"
 
@@ -409,9 +409,9 @@ class RegexGen:
 
         preceedingblock: str = str()
         if invert:
-            preceedingblock = f"(?<!{preceding[0]}" if preceding[1] else f"(?<![{preceding[0]}])"
+            preceedingblock = f"(?<!{preceding[0]})" if preceding[1] else f"(?<![{preceding[0]}])"
         else:
-            preceedingblock = f"(?<={preceding[0]}" if preceding[1] else f"(?<=[{preceding[0]}])"
+            preceedingblock = f"(?<={preceding[0]})" if preceding[1] else f"(?<=[{preceding[0]}])"
 
         followblock: str = f"{succeeding[0]}{temp}" if succeeding[1] else f"[{succeeding[0]}]{temp}"
         characterstr = preceedingblock + followblock
