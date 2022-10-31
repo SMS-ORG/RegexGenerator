@@ -7,7 +7,6 @@ def is_lower_case(x: int): return x > 96 and x < 123
 def is_upper_case(x: int): return x > 64 and x < 91
 def is_number(x: int): return x > 47 and x < 58
 
-
 '''
     data: str //any character or range
     args: list //list of functions for testing ranges, is_lower_case, is_upper_case, is_number
@@ -70,7 +69,7 @@ class RegexGen:
     '''
     ^ character symbolizes the start of the string or line
     '''
-    @property
+
     def linestartwith(self):
         if not len(self.__regex_data):
             self.__regex_data += '^'
@@ -81,7 +80,7 @@ class RegexGen:
     '''
     $ character symbolizes as end of a line
     '''
-    @property
+
     def endofline(self):
         self.__regex_data += '$'
         return self

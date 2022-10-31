@@ -1,6 +1,6 @@
 import unittest
-from regexgen import RegexGen
 import re
+from src.regexgen import RegexGen
 
 
 class TestCases(unittest.TestCase):
