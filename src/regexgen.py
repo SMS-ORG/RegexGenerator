@@ -1,5 +1,5 @@
 from typing_extensions import Self
-from typing import Tuple, List
+from typing import Tuple
 import re
 
 
@@ -475,7 +475,7 @@ class RegexGen:
         return : RegexGen
     '''
 
-    def any_of_q(self, character_list: Tuple[str] | List[str], min: int = 0, max: int = 0, capture: bool = False, **kwargs):
+    def any_of_q(self, character_list: Tuple[str], min: int = 0, max: int = 0, capture: bool = False, **kwargs):
         character_str = str()
         tempstr = str()
 
