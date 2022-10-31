@@ -7,7 +7,7 @@ name="regexgenerator"
 version = "0.0.1"
 readme = "README.md"
 authors = [
-    {name="SMS ORG",  email="nirmaldahal25@gmail.com"},
+    {name="Nirmal Dahal",  email="nirmaldahal25@gmail.com"},
 ]
 description = "A simple package to create regex easily"
 license = { file = "LICENSE" }

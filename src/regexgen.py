@@ -1,11 +1,12 @@
 from typing_extensions import Self
-from typing import Tuple
+from typing import Tuple, List
 import re
 
 
 def is_lower_case(x: int): return x > 96 and x < 123
 def is_upper_case(x: int): return x > 64 and x < 91
 def is_number(x: int): return x > 47 and x < 58
+
 
 '''
     data: str //any character or range
@@ -69,7 +70,7 @@ class RegexGen:
     '''
     ^ character symbolizes the start of the string or line
     '''
-
+    @property
     def linestartwith(self):
         if not len(self.__regex_data):
             self.__regex_data += '^'
@@ -80,7 +81,7 @@ class RegexGen:
     '''
     $ character symbolizes as end of a line
     '''
-
+    @property
     def endofline(self):
         self.__regex_data += '$'
         return self
@@ -99,14 +100,14 @@ class RegexGen:
 
         # check if range is valid
         character_range = f"({start}-{end})"
-        if(valid_ranges(character_range, is_lower_case, is_upper_case, is_number)):
+        if (valid_ranges(character_range, is_lower_case, is_upper_case, is_number)):
             return character_range
         raise Exception("In function {}, range_start : {}, range_end:{} => This is not a valid range. Valid ranges are 0-9,A-Z or a-z or \W".format(
             RegexGen.range.__name__, start, end))
 
     '''
         characters : str  //characters to be matched
-        pattern_prevent : str  => default = False //On True, prevents the characters sequence to match(The sequence must not contain a range) 
+        pattern_prevent : bool  => default = False //On True, prevents the characters sequence to match(The sequence must not contain a range) 
                                                 //and on false prevent piecewise occuring of characters.
         return : tuple
     '''
@@ -123,6 +124,23 @@ class RegexGen:
             raise
 
         return characters, pattern_prevent
+
+    '''
+        character: str,
+        start : bool, => default = True //On true, the letter is the left boundary of the word 
+                                        //and on false the letter is the right boundary of the word
+    '''
+    @staticmethod
+    def boundary_character(character: str, start: bool = True) -> str:
+        if len(character) > 2:
+            raise Exception("In function {}, start : {} => Character cannot be length greater than two",
+                            RegexGen.boundary_character.__name__, start)
+        elif len(character) == 2 and character not in {"\w", "\W", "\d", "\."}:
+            raise Exception("In function {}, start : {} => Character is not a \w or \W or \d or \.",
+                            RegexGen.boundary_character.__name__, start)
+
+        character_str = "\b" + character if start else character + "\b"
+        return character_str
 
     '''
         Add Quantifiers like {0},{0,1},?,*,+,{0,1}
@@ -323,7 +341,7 @@ class RegexGen:
             try:
                 if valid_ranges(character, is_number, is_lower_case, is_upper_case) or character.find(RegexGen.symbolsrange) != -1:
                     pass
-            except(...):
+            except (...):
                 raise
 
             character_string += f"{character}|" if pattern_prevent else character
@@ -356,6 +374,19 @@ class RegexGen:
                 letters += lettr
         return letters
 
+    '''
+        This function is used to match the pattern succeeded by another pattern.
+        min : int => default = 0 // if min and max are both zero it must pass a keyword argument as True 
+        max : int => default = 0
+        pattern : a tuple[str, bool] expected a return type from exclude static function
+        capture : bool => default=False //On True enclose the regex syntax in parenthesis so that regex engine capture data
+        kwargs : dict => {
+            zeroormore : bool => default=False,
+            oneormore : bool => default=False
+        }
+        return : RegexGen
+    '''
+
     def succeeded_by(self, preceeding: Tuple[str, bool], succeeding: Tuple[str, bool], min: int = 0, max: int = 0, capture: bool = False, invert: bool = False, **kwargs) -> Self:
         if not preceeding or len(preceeding) != 2:
             raise Exception("In function {} => characters1 tuple cannot be none or its length must be 2".format(
@@ -369,7 +400,7 @@ class RegexGen:
 
         try:
             temp = self.__add_quantifier(min, max, **kwargs)
-        except(...):
+        except (...):
             raise
 
         followblock: str = str()
@@ -391,6 +422,19 @@ class RegexGen:
         self.__regex_data += characterstr
         return self
 
+    '''
+        This function is used to match pattern that is preceded by another pattern. If the pattern of the succeeded_by and preceeded_by matches the combination is union. 
+        min : int => default = 0 // if min and max are both zero it must pass a keyword argument as True 
+        max : int => default = 0
+        pattern : a tuple[str, bool] expected a return type from exclude static function
+        capture : bool => default=False //On True enclose the regex syntax in parenthesis so that regex engine capture data
+        kwargs : dict => {
+            zeroormore : bool => default=False,
+            oneormore : bool => default=False
+        }
+        return : RegexGen
+    '''
+
     def preceded_by(self, preceding: Tuple[str, bool], succeeding: Tuple[str, bool], min: int = 0, max: int = 0, capture: bool = False, invert: bool = False, **kwargs) -> Self:
         if not preceding or len(preceding) != 2:
             raise Exception("In function {} => characters1 tuple cannot be none or its length must be 2".format(
@@ -404,7 +448,7 @@ class RegexGen:
 
         try:
             temp = self.__add_quantifier(min, max, **kwargs)
-        except(...):
+        except (...):
             raise
 
         preceedingblock: str = str()
@@ -417,4 +461,36 @@ class RegexGen:
         characterstr = preceedingblock + followblock
         characterstr = f"({characterstr})" if capture else f"(?:{characterstr})"
         self.__regex_data += characterstr
+        return self
+
+    '''
+        This function is any_of_the_block with quantifiers or this function defines repetition of words in the list. 
+        min : int => default = 0 // if min and max are both zero it must pass a keyword argument as True 
+        max : int => default = 0
+        pattern : a tuple[str, bool] expected a return type from exclude static function
+        capture : bool => default=False //On True enclose the regex syntax in parenthesis so that regex engine capture data
+        kwargs : dict => {
+            zeroormore : bool => default=False,
+            oneormore : bool => default=False
+        }
+        return : RegexGen
+    '''
+
+    def any_of_q(self, character_list: Tuple[str] | List[str], min: int = 0, max: int = 0, capture: bool = False, **kwargs):
+        character_str = str()
+        tempstr = str()
+
+        if not len(character_list):
+            return self
+        try:
+            tempstr = self.__add_quantifier(min, max, **kwargs)
+        except (...):
+            raise
+
+        character_str = "(" if capture else '(?:'
+        character_str += ('|').join(character_list)
+        character_str += ')'
+
+        character_str += tempstr
+        self.__regex_data += character_str
         return self
