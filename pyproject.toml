@@ -9,6 +9,7 @@ readme = "README.md"
 authors = [
     {name="Nirmal Dahal",  email="nirmaldahal25@gmail.com"},
     {name="Lokesh Sapkota",  email="sapkota.lokesh10@gmail.com"},
+    {name="Ram Koirala", email="ramkoirala1123@gmail.com"}
 ]
 description = "A simple package to create regex easily"
 license = { file = "LICENSE" }

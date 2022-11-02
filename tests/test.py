@@ -1,6 +1,6 @@
 import unittest
 import re
-from src.regexgen import RegexGen
+from regexgen import RegexGen
 
 
 class TestCases(unittest.TestCase):
@@ -112,12 +112,20 @@ class TestCases(unittest.TestCase):
         self.assertFalse(re.match(regex.get_regex_data(), "1923"))
 
     def test_alphanumerc(self):
-        regex = RegexGen().text(RegexGen().alphanumeric, 4, 4)
+        regex = RegexGen().text(RegexGen.alphanumeric, 4, 4)
         self.assertEqual(regex.get_regex_data(), "\w{4}")
         self.assertTrue(re.match(regex.get_regex_data(), "acrs"))
         self.assertTrue(re.match(regex.get_regex_data(), "1a3_"))
         self.assertFalse(re.match(regex.get_regex_data(), '@a+*'))
 
+    # def test_email(self):
+    #     regex = RegexGen().linestartwith().text(RegexGen.alphanumeric,oneormore = True).text(RegexGen.characters("@"),1,1).text(RegexGen.alphanumeric,oneormore = True).text(RegexGen.characters("."),1,1).alphabets(2,).endofline()
+    #     print(regex.get_regex_data())
+
+    # def test_password(self):
+    #      anyvalue = RegexGen.any_of([{"character": '.', "min": 0, "max": 0, "zeroormore": True}])
+    # regex = RegexGen().linestartwith().succeeded_by("",anyvalue+RegexGen.any_of(RegexGen.range("a", "z")), min=1, max=1).succeeded_by("",anyvalue+RegexGen.any_of(RegexGen.range("A", "Z")), min=1, max=1).succeeded_by("",                                                                         anyvalue+RegexGen.digitsrange, min=1, max=1).text(RegexGen.alphanumeric, min=8).endofline()
+    # print(regex.get_regex_data())
 
 if __name__ == "__main__":
     unittest.main()
