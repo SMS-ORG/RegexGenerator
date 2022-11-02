@@ -1,6 +1,7 @@
 from typing_extensions import Self
 from typing import Tuple
 import re
+from multipledispatch import dispatch
 
 
 def is_lower_case(x: int): return x > 96 and x < 123
@@ -434,7 +435,9 @@ class RegexGen:
         return : RegexGen
     '''
 
+    @dispatch((list, tuple), (list, tuple))
     def preceded_by(self, preceding: Tuple[str, bool], succeeding: Tuple[str, bool], min: int = 0, max: int = 0, capture: bool = False, invert: bool = False, **kwargs) -> Self:
+        print("tuple called")
         if not preceding or len(preceding) != 2:
             raise Exception("In function {} => characters1 tuple cannot be none or its length must be 2".format(
                 RegexGen.preceded_by.__name__))
@@ -461,6 +464,10 @@ class RegexGen:
         characterstr = f"({characterstr})" if capture else f"(?:{characterstr})"
         self.__regex_data += characterstr
         return self
+
+    @dispatch(str, str)
+    def preceded_by(self, preceding: str, succeeding: str, min: int = 0, max: int = 0, capture: bool = False, invert: bool = False, **kwargs) -> Self:
+        return self.preceded_by(RegexGen.exclude(preceding, True), RegexGen.exclude(succeeding, True), min=min, max=max, capture=capture, invert=invert, **kwargs)
 
     '''
         This function is any_of_the_block with quantifiers or this function defines repetition of words in the list. 
@@ -493,3 +500,7 @@ class RegexGen:
         character_str += tempstr
         self.__regex_data += character_str
         return self
+
+
+if __name__ == "__main__":
+    RegexGen().preceded_by("a", "b", min=2, max=1)
