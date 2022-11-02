@@ -45,8 +45,8 @@ class TestCases(unittest.TestCase):
         self.assertFalse(re.search(regex.get_regex_data(), 'abc1a'))
 
     def test_any_of_functions(self):
-        regex = RegexGen().text(RegexGen.anyof('+!@.'), min=1, max=4)
-        self.assertEqual(regex.get_regex_data(), "(?:[+!@.]){1,4}")
+        regex = RegexGen().text(RegexGen.any_of(RegexGen.characters('+!@.')), min=1, max=4)
+        self.assertEqual(regex.get_regex_data(), "(?:[\+!@\.]){1,4}")
         self.assertTrue(re.match(regex.get_regex_data(), "@+abc"))
         self.assertTrue(re.search(regex.get_regex_data(), "This is a test."))
         self.assertFalse(re.match(regex.get_regex_data(), "Thisisatest"))
