@@ -53,7 +53,7 @@ class RegexGen:
     # ranges
     lowercaserange: str = "[a-z]"
     uppercaserange: str = "[A-Z]"
-    digitsrange: str = "[0-9]"
+    digitsrange: str = "\d"
     symbolsrange: str = "\W"
     alphanumeric: str = "\w"
     # ecape sequences
