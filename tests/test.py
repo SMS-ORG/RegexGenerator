@@ -1,6 +1,6 @@
 import unittest
 import re
-from regexgen import RegexGen
+from src.regexgen import RegexGen
 
 
 class TestCases(unittest.TestCase):
@@ -118,14 +118,19 @@ class TestCases(unittest.TestCase):
         self.assertTrue(re.match(regex.get_regex_data(), "1a3_"))
         self.assertFalse(re.match(regex.get_regex_data(), '@a+*'))
 
-    # def test_email(self):
-    #     regex = RegexGen().linestartwith().text(RegexGen.alphanumeric,oneormore = True).text(RegexGen.characters("@"),1,1).text(RegexGen.alphanumeric,oneormore = True).text(RegexGen.characters("."),1,1).alphabets(2,).endofline()
-    #     print(regex.get_regex_data())
-
-    # def test_password(self):
-    #      anyvalue = RegexGen.any_of([{"character": '.', "min": 0, "max": 0, "zeroormore": True}])
-    # regex = RegexGen().linestartwith().succeeded_by("",anyvalue+RegexGen.any_of(RegexGen.range("a", "z")), min=1, max=1).succeeded_by("",anyvalue+RegexGen.any_of(RegexGen.range("A", "Z")), min=1, max=1).succeeded_by("",                                                                         anyvalue+RegexGen.digitsrange, min=1, max=1).text(RegexGen.alphanumeric, min=8).endofline()
-    # print(regex.get_regex_data())
+    def test_email(self):
+        regex = RegexGen().linestartwith().text(RegexGen.alphanumeric,oneormore = True).text(RegexGen.characters("@"),1,1).text(RegexGen.alphanumeric,oneormore = True).text(RegexGen.characters("."),1,1).alphabets(2,).endofline()
+        self.assertTrue(re.match(regex.get_regex_data(),"aaa@gmail.com"))
+        self.assertTrue(re.match(regex.get_regex_data(),'test@test.com'))
+        self.assertFalse(re.match(regex.get_regex_data(),'test@test.c'))
+        self.assertFalse(re.match(regex.get_regex_data(),'test.com'))
+    def test_password(self):
+        anyvalue = RegexGen.any_of([{"character": '.', "min": 0, "max": 0, "zeroormore": True}])
+        regex = RegexGen().linestartwith().succeeded_by("",anyvalue+RegexGen.any_of(RegexGen.range("a", "z")), min=1, max=1).succeeded_by("",anyvalue+RegexGen.any_of(RegexGen.range("A", "Z")), min=1, max=1).succeeded_by("",                                                                         anyvalue+RegexGen.digitsrange, min=1, max=1).text(RegexGen.alphanumeric, min=8).endofline()
+        self.assertTrue(re.match(regex.get_regex_data(),"Password123"))
+        self.assertFalse(re.match(regex.get_regex_data(),'password'))
+        self.assertFalse(re.match(regex.get_regex_data(),'PASSword'))
+        self.assertFalse(re.match(regex.get_regex_data(),'pass123'))
 
 if __name__ == "__main__":
     unittest.main()
