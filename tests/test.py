@@ -104,6 +104,17 @@ class TestCases(unittest.TestCase):
         self.assertFalse(re.match(regex.get_regex_data(), "foo12345bar123"))
         self.assertFalse(re.match(regex.get_regex_data(), "foo123458bar123"))
 
+    def test_succeeded_by(self):
+        regex = RegexGen().succeeded_by("USD",RegexGen.whitespace + RegexGen.digitsrange,min=1,max=1)
+        self.assertEqual(regex.get_regex_data(), "(?:USD(?=\s\d))")
+        self.assertTrue(re.match(regex.get_regex_data(), "USD 123"))
+        self.assertFalse(re.match(regex.get_regex_data(), "USD Aba"))
+    
+    def test_preceded_by(self):
+        regex = RegexGen().preceded_by("USD",RegexGen.digitsrange,min=1,max=1)
+        self.assertEqual(regex.get_regex_data(), "(?:(?<=USD)\d)")
+        self.assertTrue(re.search(regex.get_regex_data(), "USD1"))
+        self.assertFalse(re.search(regex.get_regex_data(), "Rs1"))
     def test_alphabets(self):
         regex = RegexGen().alphabets(1, 5)
         self.assertEqual(regex.get_regex_data(), "[a-zA-Z]{1,5}")
@@ -124,6 +135,7 @@ class TestCases(unittest.TestCase):
         self.assertTrue(re.match(regex.get_regex_data(),'test@test.com'))
         self.assertFalse(re.match(regex.get_regex_data(),'test@test.c'))
         self.assertFalse(re.match(regex.get_regex_data(),'test.com'))
+    
     def test_password(self):
         anyvalue = RegexGen.any_of([{"character": '.', "min": 0, "max": 0, "zeroormore": True}])
         regex = RegexGen().linestartwith().succeeded_by("",anyvalue+RegexGen.any_of(RegexGen.range("a", "z")), min=1, max=1).succeeded_by("",anyvalue+RegexGen.any_of(RegexGen.range("A", "Z")), min=1, max=1).succeeded_by("",                                                                         anyvalue+RegexGen.digitsrange, min=1, max=1).text(RegexGen.alphanumeric, min=8).endofline()
