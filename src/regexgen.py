@@ -392,6 +392,21 @@ class RegexGen:
         return f"({character_str})" if capture else f"(?:{character_str})"
 
     '''
+        Accepts characters or ranges that forms a or operation of characters and returns characters not to be inclded in pattern
+        return : str
+    '''
+    @staticmethod
+    def none_of(characters: str, capture: bool = False, **kwargs) -> str:
+        if valid_ranges(characters, is_number, is_lower_case, is_upper_case) or characters.find(RegexGen.symbolsrange) != -1:
+            pass
+
+        for character in characters:
+            if not type("a").isascii(character):
+                raise Exception("In function {}, character : {} => Non ascii character is not acceptable".format(
+                    RegexGen.any_of.__name__, character))
+        return f"([^{characters}])" if capture else f"(?:[^{characters}])"
+
+    '''
         some characters are predefined in the regex library thus they need to be escaped
         return : str 
     '''
