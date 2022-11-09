@@ -2,15 +2,14 @@ from typing_extensions import Self
 from typing import Tuple
 import re
 
-
 def is_lower_case(x: int): return x > 96 and x < 123
 def is_upper_case(x: int): return x > 64 and x < 91
 def is_number(x: int): return x > 47 and x < 58
 
-'''
-    data: str //any character or range
-    args: list //list of functions for testing ranges, is_lower_case, is_upper_case, is_number
-'''
+"""
+    data str //any character or range
+    args list //list of functions for testing ranges, is_lower_case, is_upper_case, is_number
+"""
 
 
 def valid_ranges(data: str, *args) -> bool:
@@ -49,6 +48,9 @@ def valid_ranges(data: str, *args) -> bool:
 
 
 class RegexGen:
+    """
+    Start of the class
+    """
     # ranges
     lowercaserange: str = "[a-z]"
     uppercaserange: str = "[A-Z]"
@@ -85,14 +87,15 @@ class RegexGen:
         self.__regex_data += '$'
         return self
 
-    '''
+
+    @staticmethod
+    def range(start: str, end: str) -> str:
+    """
         Range for symbols will throw an error
         start : str // length must be 1
         end : str  //length must be 1
         return : str //returns the range in format <start>-<end>
-    '''
-    @staticmethod
-    def range(start: str, end: str) -> str:
+    """
         if (not start and not end) and (len(start) > 1 and len(end) > 1):
             raise Exception("In function {}, range_start : {}, range_end:{} => Characters cannot be None".format(
                 RegexGen.range.__name__, start, end))
