@@ -31,11 +31,9 @@ class RegexGen:
 
     def linestartwith(self):
         '''
-        <p><code>linestartwith</code> adds a expression to indicates beginning of the string and is always added on a new line.<br>
-        The function definition is: </p> 
-            ```
-            linestartwith(self)
-            ```
+        <code>linestartwith</code> adds a expression to indicate beginning of the string and is always added on a new line.<br></p>
+        The function definition is:  
+            `linestartwith(self)`
         <p>When this function is called, the function adds the expression '^' if no regex data exists already.</p>
         <p>If the regex data already exists then the function adds the expression '\\n^' indicating line is changed before signifying beginning of the string.  </p>
         <p><code>Linestartwith</code> function can be used in combination with other function to create a regex syntax to check if the expression starts with certain pattern.<br>
@@ -45,7 +43,7 @@ class RegexGen:
         ```       
         <p>This code checks for text starting with 'foo' and starting with 'bar' after any characters of length of min 1 and max 5 digits.</p>
         <p>The regex is displayed as:</p>
-        <pre> regex = "^foo.{1,5}bar"</pre>
+        <samp> regex = "^foo.{1,5}bar"</samp></p>
     ^ character symbolizes the start of the string or line.
     '''
         if not len(self.__regex_data):
@@ -59,50 +57,41 @@ class RegexGen:
     def endofline(self):
         '''
         <p><code>endofline</code> adds a expression to indicates end of the string and end of the line.<br>
-            The function definition is:  
-            <code>endofline(self)</code></p>
-        <p>When this function is called, the function adds the expression '$' to the regex data.</p>
-        <p>If the regex data already exists then the function adds the expression '\n^' indicating line is changed before signifying beginning of the string.  </p>
+            The function definition is: 
+          <code>
+           endofline(self) 
+           </code>
+        <p>When this function is called, the function adds the expression '$' to the regex data.
+        <p>If the regex data already exists then the function adds the expression '\n^' indicating line is changed before signifying beginning of the string.  
         <p><code>endofline</code> function can be used in combination with other function to create a regex syntax to check if the expression ends with certain pattern.<br>
-        </p>
-<pre><code><p>regex = RegexGen().regex.text('abc', 1, 1).endofline()</p></code></pre>           
-<p>This code checks for text ending with 'abc' after any characters of any length </p>
-<p>The regex is displayed as:</p>
-<pre> regex = "abc$"</pre>
-    $ character symbolizes as end of a line
-    '''
+        <pre><code><p>regex = RegexGen().regex.text('abc', 1, 1).endofline()</p></code></pre>           
+        <p>This code checks for text ending with 'abc' after any characters of any length 
+        <p>The regex is displayed as:<br>
+        <samp> regex = "abc$"</samp><br>
+        $ character symbolizes as end of a line
+        </p></p></p></p></p>
+        '''
         self.__regex_data += '$'
         return self
     
     @staticmethod
     def range(start: str, end: str) -> str:
-        """
-        <p><code>Range</code> function provides syntax for defining range.<br><br>
+        '''
+        <code>Range</code> function provides syntax for defining range.<br><br>
             In the function definition, 
-            <code>range(start: str, end: str)</code>
-            ,
-            <ol class="list-group list-group-numbered">
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="ms-2 me-auto">
-                        start accepts string for starting range whose length must be 1.                 
-                    </div></li>
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="ms-2 me-auto">
-                        end accepts string for ending range whose length must be 1.                
-                    </div></li>
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="ms-2 me-auto">
-                        return returns the range in format &#60;start>-&#60;end>
-                    </div></li>
-                </ol><br></p>
+            <code>range(start: str, end: str)</code> <br>
+                    1. start accepts string for starting range whose length must be 1.                           
+                    2. end accepts string for ending range whose length must be 1.                             
+                    3. return returns the range in format <start>-<end>
+        
         <pre><code><p>regex = RegexGen().regex.range('a', 'z')</p></code></pre>           
         <p>The regex is displayed as:</p>
-        <pre> regex = "[a-z]"</pre>
+        <samp> regex = "[a-z]"</samp><br>
         Range for symbols will throw an error
         start : str // length must be 1
         end : str  //length must be 1
         return : str //returns the range in format <start>-<end>
-    """
+    '''
         if (not start and not end) and (len(start) > 1 and len(end) > 1):
             raise Exception("In function {}, range_start : {}, range_end:{} => Characters cannot be None".format(
                 RegexGen.range.__name__, start, end))
@@ -118,24 +107,18 @@ class RegexGen:
     @staticmethod
     def exclude(characters: str, pattern_prevent: bool = False) -> Tuple[str, bool]:
         '''
-        <p><code>Exclude</code> function is a static function. It excludes certain pattern based upon the input of the user.<br>
-                            In the function definition, <code>exclude(characters: str, pattern_prevent: bool = False) -> tuple</code>,
-                            <ol class="list-group list-group-numbered">
-                                <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto">
-                                        the characters : str signifies characters to be matched, <br>
-                                    </div></li>
-                                <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto">
-                                        pattern_prevent : str (default = False) Here, on True, prevents the characters sequence to match(The sequence must not contain a range) <br>
-                                        and on false prevent piecewise occuring of characters.
-                                        and returns a tuple                    
-                                    </div></li>
-                               </p>
-                        <pre><code><p>RegexGen().digits(1, 10, RegexGen.exclude("23", True), capture=True) </p></code></pre>           
-                        
-                        <p>The regex is displayed as:</p>
-                        <pre> regex = "\b(?:(?![23])\d)+\b"</pre>
+        <code>Exclude</code> function is a static function. It excludes certain pattern based upon the input of the user.<br>
+        In the function definition, <code>exclude(characters: str, pattern_prevent: bool = False) -> tuple</code>,
+            <ol><li> the characters : str signifies characters to be matched,</li> 
+            <li>pattern_prevent : str (default = False) Here, on True, prevents the characters sequence to match(The sequence must not contain a range) 
+                    and on false prevent piecewise occuring of characters.
+                    and returns a tuple   </li>                 
+                
+            
+    <pre><code><p>RegexGen().digits(1, 10, RegexGen.exclude("23", True), capture=True) </p></code></pre>           
+    
+    <p>The regex is displayed as:<br>
+    <samp> regex = "\b(?:(?![23])\d)+\b"</samp><br>
         characters : str  //characters to be matched
         pattern_prevent : bool  => default = False //On True, prevents the characters sequence to match(The sequence must not contain a range) 
                                                 //and on false prevent piecewise occuring of characters.
@@ -156,9 +139,12 @@ class RegexGen:
     @staticmethod
     def boundary_character(character: str, start: bool = True) -> str:
         '''
-        character: str,
-        start : bool, => default = True //On true, the letter is the left boundary of the word 
-                                        //and on false the letter is the right boundary of the word
+        <code>Boundary character</code> gives left or right boundary of the word as required.<br>
+        In the function definition, <code> boundary_character(character: str, start: bool = True) -> str: </code><br>
+        <ol>
+        <li> character: str signifies characters to be matched</li>
+        <li>start : bool (default = True) On true, the letter is the left boundary of the word<br> 
+                                        and on false the letter is the right boundary of the word.
     '''
         if len(character) > 2:
             raise Exception("In function {}, start : {} => Character cannot be length greater than two",
@@ -168,53 +154,35 @@ class RegexGen:
                             RegexGen.boundary_character.__name__, start)
 
         character_str = "\b" + character if start else character + "\b"
+        
         return character_str
 
-
-
-    def __add_quantifier(self, min: int, max: int, **kwargs) -> str:
-        '''
-        <p><code>__add_quantifier</code>adds quantifiers like ? + * x(n,m).<br>
-        The function definition is:  
-            <code>__add_quantifier(self, min: int, max: int, **kwargs)</code></p>
+    
+    def add_quantifier(self, min: int, max: int, **kwargs) -> str:
+        """
+            <code>__add_quantifier</code>adds quantifiers like ? + * x(n,m).<br>
+        The function definition is:  <code>__add_quantifier(self, min: int, max: int, **kwargs)</code>.<br>
         The regex generated depends on the value of min and max.
-            <ol class="list-group list-group-numbered">
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="fw-bold">min == max and max == 0:</div>
+            <ol>
+                <li>min == max and max == 0:<br>
                     If no characters exist then the exception is raised stating min and max can't be zero.       
-
-                    <div class="ms-2 me-auto">
-                        <pre> regex = " "</pre>                    </div></li>
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="fw-bold">max == min and min == 1:</div>
-                    <div class="ms-2 me-auto">
-                        <pre> regex = "^foo.{1,5}bar"</pre>                    </div></li>
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="fw-bold">max == min:</div>
-                    <div class="ms-2 me-auto">
-                        <pre> regex = "^foo.{1,5}bar"</pre>                    </div></li>                
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="fw-bold">min == 0 and max == 1:</div>
-                    <div class="ms-2 me-auto">
-                        <pre> regex = "^foo.{1,5}bar"</pre>                    </div></li>  
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="fw-bold">max == 0 and min > 0:</div>
-                    <div class="ms-2 me-auto">
-                        <pre> regex = "^foo.{1,5}bar"</pre>                    </div></li>  
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="fw-bold">max > min and min > 0:</div>
-                    <div class="ms-2 me-auto">
-                        <pre> regex = "^foo.{1,5}bar"</pre>                    </div></li>  
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="fw-bold">Else:</div>
-                    <div class="ms-2 me-auto">
-                    <!-- If no characters exist then the exception is raised stating min and max can't be zero.        -->
-                    </div></li>                      
-                </ol><br>
-            </p>
+                    <pre> regex = " "</pre>         </li>      
+                 <li>max == min and min == 1:
+                    <pre> regex = "^foo.{1,5}bar"</pre></li>
+                <li>max == min:
+                    <pre> regex = "^foo.{1,5}bar"</pre></li>                
+                <li>min == 0 and max == 1:
+                    <pre> regex = "^foo.{1,5}bar"</pre></li>  
+                <>max == 0 and min > 0:
+                    <pre> regex = "^foo.{1,5}bar"</pre></li>  
+                <li>max > min and min > 0:
+                    <pre> regex = "^foo.{1,5}bar"</pre></li>  
+                <li>Else:  
+                    If no characters exist then the exception is raised stating min and max can't be zero.</li>                      
+                </ol>
         <pre> regex = "^foo.{1,5}bar"</pre>
         Add Quantifiers like {0},{0,1},?,*,+,{0,1}
-    '''
+    """
         regexchar: str = str()
 
         if min == max and max == 0:
@@ -497,14 +465,15 @@ class RegexGen:
     def characters(char: str) -> str:
         '''
         <p><code>Characters</code> function is a static function which is unable to create a regex syntax.<br>
-                                Instead, a function like Text is required to submit to the regex syntax. <br>
-                                Charcters is used some characters predefined in the regex library are used and thus they need to be escaped.</p>
-                        <pre><code><p>RegexGen.text(RegexGen.characters("This+is{a$text.") </p></code></pre>           
+        Instead, a function like Text is used to submit to the regex syntax. <br>
+        Characters is used some characters predefined in the regex library are used and thus they need to be escaped.
+        <pre><code><p>RegexGen.text(RegexGen.characters("This+is{a$text.") </p></code></pre>           
                         
                         <p>The regex is displayed as:</p>
-                        <pre> regex = "This\+is\{a\$text\."</pre>
+                        <samp> regex = "This\+is\{a\$text\."</samp><br>
         some characters are predefined in the regex library thus they need to be escaped
         return : str 
+        </p>
     '''
         letters: str = str()
         if not char:
