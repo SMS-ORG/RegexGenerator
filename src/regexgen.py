@@ -8,8 +8,8 @@ def is_upper_case(x: int): return x > 64 and x < 91
 def is_number(x: int): return x > 47 and x < 58
 
 """
-    data str //any character or range
-    args list //list of functions for testing ranges, is_lower_case, is_upper_case, is_number
+    data: str //any character or range
+    args: list //list of functions for testing ranges, is_lower_case, is_upper_case, is_number
 """
 
 
@@ -91,12 +91,6 @@ class RegexGen:
 
     @staticmethod
     def range(start: str, end: str) -> str:
-    """
-        Range for symbols will throw an error
-        start : str // length must be 1
-        end : str  //length must be 1
-        return : str //returns the range in format <start>-<end>
-    """
         if (not start and not end) and (len(start) > 1 and len(end) > 1):
             raise Exception("In function {}, range_start : {}, range_end:{} => Characters cannot be None".format(
                 RegexGen.range.__name__, start, end))
