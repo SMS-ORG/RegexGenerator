@@ -88,15 +88,15 @@ class RegexGen:
         self.__regex_data += '$'
         return self
 
-
-    @staticmethod
-    def range(start: str, end: str) -> str:
     """
         Range for symbols will throw an error
         start : str // length must be 1
         end : str  //length must be 1
         return : str //returns the range in format <start>-<end>
     """
+
+    @staticmethod
+    def range(start: str, end: str) -> str:
         if (not start and not end) and (len(start) > 1 and len(end) > 1):
             raise Exception("In function {}, range_start : {}, range_end:{} => Characters cannot be None".format(
                 RegexGen.range.__name__, start, end))
