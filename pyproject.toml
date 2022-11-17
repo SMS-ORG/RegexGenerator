@@ -8,6 +8,8 @@ version = "0.0.1"
 readme = "README.md"
 authors = [
     {name="Nirmal Dahal",  email="nirmaldahal25@gmail.com"},
+    {name="Lokesh Sapkota",  email="sapkota.lokesh10@gmail.com"},
+    {name="Ram Koirala", email="ramkoirala1123@gmail.com"}
 ]
 description = "A simple package to create regex easily"
 license = { file = "LICENSE" }
@@ -19,7 +21,8 @@ classifiers = [
 
 dependencies = [
     "typing_extensions~=4.3.0",
-    "typing~=3.7.4.3"
+    "typing~=3.7.4.3",
+    "multipledispatch~=0.6.0"
 ]
 
 [project.urls]
