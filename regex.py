@@ -435,31 +435,25 @@ class RegexGen:
         return self
 
     @staticmethod
-    def anyof(characters: str, capture: bool = False, pattern_prevent: bool = False) -> str:
+    def any_of(characters: str, capture: bool = False, **kwargs) -> str:
         '''
-        Accepts characters or ranges that forms a or operation of characters
-        return : str
-    '''
-        character_string: str = str()
+        <p><code>Any of</code> function is any_of_the_block with quantifiers or simply put, this function defines repetition of words in the list.</p> <br>
+        In the function definition, <code>any_of(characters: str, capture: bool = False, **kwargs) -> str:</code>,
+        <ol><li>The min : int and max : int has default = 0. If min and max are both zero it must pass a keyword argument as True .</li>
+        <li>In pattern, a tuple[str, bool] is expected as a return type from exclude static function.</li>
+        <li>If on capture : bool (default=False), True is passed, it encloses the regex syntax in parenthesis so that the regex engine captures data.</li>
+        <li>The kwargs : dict accepts { zeroormore : bool (default=False), oneormore : bool (default=False).</li>
+        <li>The return returns RegexGen.</li></ol>
+
+        '''
+        if valid_ranges(characters, is_number, is_lower_case, is_upper_case) or characters.find(RegexGen.symbolsrange) != -1:
+            pass
 
         for character in characters:
             if not type("a").isascii(character):
                 raise Exception("In function {}, character : {} => Non ascii character is not acceptable".format(
-                    RegexGen.anyof.__name__, character))
-            try:
-                if valid_ranges(character, is_number, is_lower_case, is_upper_case) or character.find(RegexGen.symbolsrange) != -1:
-                    pass
-            except (...):
-                raise
-
-            character_string += f"{character}|" if pattern_prevent else character
-
-        if pattern_prevent:
-            character_string = character_string[:-2]
-
-        character_string = f"[{character_string}]" if not pattern_prevent else character_string
-
-        return f"({character_string})" if capture else f"(?:{character_string})"
+                    RegexGen.any_of.__name__, character))
+        return f"([{characters}])" if capture else f"(?:[{characters}])"
 
     @staticmethod
     def characters(char: str) -> str:
@@ -492,16 +486,13 @@ class RegexGen:
 
     def succeeded_by(self, preceeding: Tuple[str, bool], succeeding: Tuple[str, bool], min: int = 0, max: int = 0, capture: bool = False, invert: bool = False, **kwargs) -> Self:
         '''
-        This function is used to match the pattern succeeded by another pattern.
-        min : int => default = 0 // if min and max are both zero it must pass a keyword argument as True 
-        max : int => default = 0
-        pattern : a tuple[str, bool] expected a return type from exclude static function
-        capture : bool => default=False //On True enclose the regex syntax in parenthesis so that regex engine capture data
-        kwargs : dict => {
-            zeroormore : bool => default=False,
-            oneormore : bool => default=False
-        }
-        return : RegexGen
+        This function is used to match the pattern succeeded by another pattern.<br>
+        In the function definition, <code>succeeded_by(self, preceeding: Tuple[str, bool], succeeding: Tuple[str, bool], min: int = 0, max: int = 0, capture: bool = False, invert: bool = False, **kwargs) -> Self:</code>,
+        <ol><li>The min : int and max : int has default = 0. If min and max are both zero it must pass a keyword argument as True .</li>
+        <li>In pattern, a tuple[str, bool] is expected as a return type from exclude static function.</li>
+        <li>If on capture : bool (default=False), True is passed, it encloses the regex syntax in parenthesis so that the regex engine captures data.</li>
+        <li>The kwargs : dict accepts { zeroormore : bool (default=False), oneormore : bool (default=False).</li>
+        <li>The return returns RegexGen.</li></ol>
     '''
         if not preceeding or len(preceeding) != 2:
             raise Exception("In function {} => characters1 tuple cannot be none or its length must be 2".format(
@@ -539,16 +530,14 @@ class RegexGen:
 
     def preceded_by(self, preceding: Tuple[str, bool], succeeding: Tuple[str, bool], min: int = 0, max: int = 0, capture: bool = False, invert: bool = False, **kwargs) -> Self:
         '''
-        This function is used to match pattern that is preceded by another pattern. If the pattern of the succeeded_by and preceeded_by matches the combination is union. 
-        min : int => default = 0 // if min and max are both zero it must pass a keyword argument as True 
-        max : int => default = 0
-        pattern : a tuple[str, bool] expected a return type from exclude static function
-        capture : bool => default=False //On True enclose the regex syntax in parenthesis so that regex engine capture data
-        kwargs : dict => {
-            zeroormore : bool => default=False,
-            oneormore : bool => default=False
-        }
-        return : RegexGen
+        This function is used to match pattern that is preceded by another pattern.<br>
+        If the pattern of the succeeded_by and preceeded_by matches the combination is union. <br>
+      In the function definition, <code>preceded_by(self, preceding: Tuple[str, bool], succeeding: Tuple[str, bool], min: int = 0, max: int = 0, capture: bool = False, invert: bool = False, **kwargs) -> Self:</code>,
+        <ol><li>The min : int and max : int has default = 0. If min and max are both zero it must pass a keyword argument as True .</li>
+        <li>In pattern, a tuple[str, bool] is expected as a return type from exclude static function.</li>
+        <li>If on capture : bool (default=False), True is passed, it encloses the regex syntax in parenthesis so that the regex engine captures data.</li>
+        <li>The kwargs : dict accepts { zeroormore : bool (default=False), oneormore : bool (default=False).</li>
+        <li>The return returns RegexGen.</li></ol>
     '''
         if not preceding or len(preceding) != 2:
             raise Exception("In function {} => characters1 tuple cannot be none or its length must be 2".format(
@@ -577,33 +566,42 @@ class RegexGen:
         self.__regex_data += characterstr
         return self
 
-    def any_of_q(self, character_list: Tuple[str], min: int = 0, max: int = 0, capture: bool = False, **kwargs):
-        '''
-        This function is any_of_the_block with quantifiers or this function defines repetition of words in the list. 
-        min : int => default = 0 // if min and max are both zero it must pass a keyword argument as True 
-        max : int => default = 0
-        pattern : a tuple[str, bool] expected a return type from exclude static function
-        capture : bool => default=False //On True enclose the regex syntax in parenthesis so that regex engine capture data
-        kwargs : dict => {
-            zeroormore : bool => default=False,
-            oneormore : bool => default=False
-        }
-        return : RegexGen
-    '''
-        character_str = str()
-        tempstr = str()
+    # @staticmethod
+    # def any_of(characters: tuple[dict], capture: bool = False, **kwargs) -> str:
+    #     '''
+    #     This function is any_of_the_block with quantifiers or this function defines repetition of words in the list. <br>
+    #     In the function definition, <code>any_of(characters: tuple[dict], capture: bool = False, **kwargs) -> str:</code>,
+    #     <ol><li>The min : int and max : int has default = 0. If min and max are both zero it must pass a keyword argument as True .</li>
+    #     <li>In pattern, a tuple[str, bool] is expected as a return type from exclude static function.</li>
+    #     <li>If on capture : bool (default=False), True is passed, it encloses the regex syntax in parenthesis so that the regex engine captures data.</li>
+    #     <li>The kwargs : dict accepts { zeroormore : bool (default=False), oneormore : bool (default=False).</li>
+    #     <li>The return returns RegexGen.</li></ol>
+    #     '''
+    #     character_str = str()
+    #     tempstr = str()
 
-        if not len(character_list):
-            return self
-        try:
-            tempstr = self.__add_quantifier(min, max, **kwargs)
-        except (...):
-            raise
+    #     if not len(characters):
+    #         return ""
 
-        character_str = "(" if capture else '(?:'
-        character_str += ('|').join(character_list)
-        character_str += ')'
+    #     character_pair = list()
+    #     for index, listitem in enumerate(characters):
+    #         character = listitem.pop("character", None)
+    #         min = listitem.pop("min", 0)
+    #         max = listitem.pop("max", 0)
+    #         if character is None:
+    #             raise Exception("In function {}, at index {} doesn't have character pair.".format(
+    #                 RegexGen.any_of.__name__, index))
+    #         if len(character) == 0:
+    #             continue
+    #         elif len(character) == 1 or (len(character) == 2 and character in {"\s", "\d", "\w", "\W"}):
+    #             pass
+    #         elif len(character) == 3 and valid_ranges(character, is_lower_case, is_number, is_upper_case):
+    #             pass
+    #         else:
+    #             raise Exception("In function {}, at index {}, Unknown Character: {}.".format(
+    #                 RegexGen.any_of.__name__, index, character))
+    #         tempstr = RegexGen.__add_quantifier(min=min, max=max, **listitem)
+    #         character_pair.append(character+tempstr)
 
-        character_str += tempstr
-        self.__regex_data += character_str
-        return self
+    #     character_str = "|".join(character_pair)
+    #     return f"({character_str})" if capture else f"(?:{character_str})"
