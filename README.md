@@ -12,9 +12,9 @@ This library enables end users to write Regex without being burdened by the comp
 2. Provide abstractions so that no one has to remember regex syntax.
 3. Make Regex understandable, shareable, and built at runtime.
 
-### Documentation
+## Documentation
 Our documentation can be found [here](https://sms-org.github.io/RegexGenerator/regex.html).
 
-### Installation
+## Installation
 Use the following command to install RegEx Generator.<br>
 `python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps regexgenerator`
