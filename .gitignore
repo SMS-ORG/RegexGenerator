@@ -4,3 +4,4 @@ dist/
 src/*.egg-info
 .venv/
 sphinx_docs/
+venv/
