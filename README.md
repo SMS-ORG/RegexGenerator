@@ -9,3 +9,9 @@
 1. Design a regex builder that makes reading and writing regex easy.
 2. Provide abstractions so that no one has to remember regex syntax.
 3. Make Regex understandable, shareable, and built at runtime.
+
+###Documentation
+Our documentation can be found [here] (https://sms-org.github.io/RegexGenerator/regex.html).
+
+####Installation
+`python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps regexgenerator`
